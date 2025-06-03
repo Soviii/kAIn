@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: sh -c "npm install && npm start"
+
+  backend:
+    container_name: backend
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+      - /app/target
+    working_dir: /app
+    command: sh -c "./mvnw spring-boot:run"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+
+  db:
+    container_name: db
+    image: postgres:15.5
+    restart: always
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+

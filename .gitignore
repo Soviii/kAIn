@@ -1,0 +1,35 @@
+# Node modules (frontend dependencies)
+frontend/node_modules/
+
+# Build outputs (frontend)
+frontend/build/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor configs (optional, depends on your team)
+.vscode/
+.idea/
+
+# Java build output
+backend/target/
+
+# Java IDE files
+*.iml
+*.class
+
+# Environment files (never commit secrets)
+.env
+.env.local
+.env.*.local
+
+# Docker-related files if needed (optional)
+docker-compose.override.yml
+
