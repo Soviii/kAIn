@@ -20,6 +20,7 @@ Thumbs.db
 
 # Java build output
 backend/target/
+backend/mvnw
 
 # Java IDE files
 *.iml
