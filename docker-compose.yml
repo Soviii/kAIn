@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   frontend:
     container_name: frontend
@@ -12,6 +10,8 @@ services:
       - /app/node_modules
     working_dir: /app
     command: sh -c "npm install && npm start"
+    environment:
+      - WATCHPACK_POLLING=true 
 
   backend:
     container_name: backend
