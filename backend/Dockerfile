@@ -3,10 +3,10 @@ WORKDIR /app
 
 # Copy Maven settings and dependencies first for caching 
     # - need to copy, even though redundant because of bind mount (bind mounts are active at runtime, not build time)
-COPY pom.xml ./pom.xml
-COPY .mvn .mvn
-COPY src ./src
-COPY ./.m2 ./.m2
+# COPY pom.xml ./pom.xml
+# COPY .mvn .mvn
+# COPY src ./src
+# COPY ./.m2 ./.m2
 
 # Expose default Spring Boot port
 EXPOSE 8080
