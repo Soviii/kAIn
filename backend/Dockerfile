@@ -8,6 +8,7 @@ WORKDIR /app
 # COPY src ./src
 # COPY ./.m2 ./.m2
 
+COPY . .
 # Expose default Spring Boot port
 EXPOSE 8080
 
