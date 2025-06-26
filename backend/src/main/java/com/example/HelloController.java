@@ -9,7 +9,7 @@ public class HelloController {
 
     @GetMapping("/api/goodbye")
     public Map<String, String> sayGoodbye() {
-        return Map.of("message", "goodbye planet");
+        return Map.of("message", "yu ");
     }
 }
 
