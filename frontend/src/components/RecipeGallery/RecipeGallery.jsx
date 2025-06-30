@@ -1,6 +1,8 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 
+import Spinner from '../Spinner/Spinner.jsx';
+
 const RecipeGallery = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,14 +36,14 @@ const RecipeGallery = () => {
         }
       ]);
       setLoading(false);
-    }, 500); // Simulate loading delay
+    }, 1000); // Simulate loading delay
   }, []);
 
   return (
     <div>
       <h2>Saved Recipes</h2>
       {loading ? (
-        <div>Loading...</div>
+        <Spinner />
       ) : recipes.length === 0 ? (
         <div className="text-muted">No recipes saved yet.</div>
       ) : (
