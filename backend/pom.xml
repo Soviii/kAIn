@@ -95,6 +95,12 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- OpenAI GPT3 -->
+    <dependency>
+      <groupId>com.openai</groupId>
+      <artifactId>openai-java</artifactId>
+      <version>2.11.0</version> 
+    </dependency>
   </dependencies>
 
   <build>
