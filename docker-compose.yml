@@ -23,25 +23,28 @@ services:
       - ./backend:/app
     working_dir: /app
     command: sh -c "./mvnw spring-boot:run"
+    # command: tail -f /dev/null
     depends_on:
       - db
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypassword
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
 
   db:
     container_name: db
-    image: postgres:15.5
-    restart: always
+    build:
+      context: ./db
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: mydb
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-    ports:
-      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./db/scripts:/app/scripts
 
 volumes:
   pgdata:
