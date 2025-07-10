@@ -29,6 +29,12 @@
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
+    <!-- Spring Boot Starter Pack for Validation (@NotBlank, @NotNull, etc.)-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-validation</artifactId>
+    </dependency>
+
     <!-- Spring Boot Security Starter -->
     <!-- may use in future... -->
     <!-- <dependency>
@@ -95,6 +101,12 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- OpenAI GPT3 -->
+    <dependency>
+      <groupId>com.openai</groupId>
+      <artifactId>openai-java</artifactId>
+      <version>2.11.0</version> 
+    </dependency>
   </dependencies>
 
   <build>
