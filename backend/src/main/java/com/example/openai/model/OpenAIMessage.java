@@ -23,6 +23,11 @@ public class OpenAIMessage {
     @Column(nullable = false)
     private LocalDateTime timestamp; // Maps to TIMESTAMP in PostgreSQL
 
+    // Required by JPA - must be at least protected
+    protected OpenAIMessage() {
+        // JPA uses this constructor
+    }
+
     // Convenience constructor for easy instantiation
     public OpenAIMessage(Integer recipeId, String sender, String messageText) {
         this.recipeId = recipeId;
