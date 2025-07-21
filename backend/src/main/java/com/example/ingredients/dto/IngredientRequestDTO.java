@@ -1,15 +1,15 @@
-package com.example.ingredients;
+package com.example.ingredients.dto;
 
 public class IngredientRequestDTO {
     private String name;
-    private String quantity;
+    private double quantity;
     private String unit;
 
 
     public IngredientRequestDTO() {
     }
 
-    public IngredientRequestDTO(String name, String quantity, String unit) {
+    public IngredientRequestDTO(String name, double quantity, String unit) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -23,11 +23,11 @@ public class IngredientRequestDTO {
         this.name = name;
     }   
 
-    public String getQuantity(){
+    public double getQuantity(){
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 
