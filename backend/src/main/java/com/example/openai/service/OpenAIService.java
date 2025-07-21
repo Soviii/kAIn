@@ -2,26 +2,54 @@ package com.example.openai.service;
 
 import com.example.openai.model.OpenAIMessage;
 import com.example.openai.dto.OpenAIResponse;
+import com.example.openai.dto.ConversationListResponse;
 import com.openai.client.OpenAIClient;
 import com.example.openai.repository.OpenAIMessageRepository;
 import com.openai.models.ChatModel;
 import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
+import com.example.openai.model.ChatSummary;
+import com.example.openai.repository.SummaryRepository;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
+import java.util.List;
+import java.util.ArrayList;
 
 @Service
 public class OpenAIService {
 
     private final OpenAIClient openAiClient;
     private final OpenAIMessageRepository openAIRepository;
+    private final SummaryRepository summaryRepository;
 
-    public OpenAIService(OpenAIClient openAiClient, OpenAIMessageRepository openAIRepository) {
+    public OpenAIService(OpenAIClient openAiClient, OpenAIMessageRepository openAIRepository, SummaryRepository summaryRepository) {
         this.openAiClient = openAiClient;
         this.openAIRepository = openAIRepository;
+        this.summaryRepository = summaryRepository;
     }
 
+    /**
+     * Retrieves summaries of chat conversations for a specific recipe.
+     * Summaries are ordered by timestamp in descending order (newest first).
+     *
+     * @param recipeId The ID of the recipe whose chat summaries to retrieve
+     * @return List<String> containing summary texts of conversations about this recipe
+     */
+    @Transactional(readOnly = true)
+    private List<String> getChatSummaries(Integer recipeId) {
+        List<ChatSummary> chatSummaries = summaryRepository.findByRecipeIdOrderByTimestampDesc(recipeId);
+
+        List<String> summaries = new ArrayList<>();
+
+        for (int i = 0; i < 3; i++) {
+            summaries.add(chatSummaries.get(i).getSummaryText());
+        }
+
+        return summaries;
+    }
 
     /**
      * Determines if a user's message is related to food topics using OpenAI's classification.
@@ -104,6 +132,36 @@ public class OpenAIService {
         openAIRepository.save(aiMessageForDb);
 
         return new OpenAIResponse(aiResponse, 200);
+    }
+
+    /**
+     * Retrieves the conversation history for a specific recipe from the database.
+     * Messages are returned in chronological order (oldest to newest).
+     *
+     * @param recipeId The ID of the recipe whose conversation history to retrieve
+     * @return ConversationListResponse containing:
+     *         - messages: List of OpenAIMessage objects in chronological order
+     *         - Each message contains:
+     *           * sender: Either "user" or "ai"
+     *           * messageText: The content of the message
+     * @throws ResponseStatusException with HTTP 404 if no messages found for the recipe
+     */
+    @Transactional(readOnly = true)
+    public ConversationListResponse getRecipeConversation(Integer recipeId) {
+        // 1) Get all messages from database w/ specific recipeId
+        //      - check if not empty
+        // 2) make ConversationListResponse and add all messages
+        ConversationListResponse convo = new ConversationListResponse();
+
+        List<OpenAIMessage> dbMessages = openAIRepository.findByRecipeIdOrderByTimestampAsc(recipeId);
+
+        if (dbMessages.size() == 0){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No conversation found for recipeId: " + recipeId);
+        }
+
+        dbMessages.forEach(convo::addMessage); // for each OpenAIMessage in dbMessages, run convo.addMessage();
+
+        return convo;
     }
 }
 
