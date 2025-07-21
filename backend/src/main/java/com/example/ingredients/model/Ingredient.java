@@ -15,7 +15,7 @@ public class Ingredient {
     private double quantity;
     private String unit;
 
-    // creating a foreign key relationship with the Recipe entity
+    // making a reference to recipe obj and creating a foreign key relationship with the Recipe entity
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_uuid", nullable = false)
     private Recipe recipe;
