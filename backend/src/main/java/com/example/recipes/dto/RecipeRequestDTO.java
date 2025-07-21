@@ -1,8 +1,9 @@
 package com.example.recipes.dto;
 
 import java.util.List;
-import com.example.ingredients.dto;
-import com.example.steps.dto;
+
+import com.example.ingredients.dto.IngredientRequestDTO;
+import com.example.steps.dto.StepRequestDTO;
 
 public class RecipeRequestDTO {
     private Long userId;

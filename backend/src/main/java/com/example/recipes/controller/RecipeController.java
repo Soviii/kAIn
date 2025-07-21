@@ -2,9 +2,12 @@ package com.example.recipes.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.recipes.dto.RecipeResponseDTO;
+import com.example.recipes.dto.RecipeRequestDTO;
+import com.example.recipes.model.Recipe;
 import com.example.recipes.service.RecipeService;
 
 
@@ -18,23 +21,32 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
-    public RecipeResponseDTO getRecipe(Long id) {
-        return recipeService.getRecipeById(id);
+    // TODO uncomment when ready to implement functions
+    // public RecipeResponseDTO getRecipe(Long id) {
+    //     return recipeService.getRecipeById(id);
+    // }
+
+    // TODO uncomment when ready to implement functions
+    // public List<RecipeResponseDTO> getAllRecipes() {
+    //     return recipeService.getAllRecipes();
+    // }
+
+    // @PostMapping
+    // public RecipeResponseDTO createRecipe(RecipeRequestDTO recipeRequestDTO) {
+    //     return recipeService.createRecipe(recipeRequestDTO);
+    // }
+    @PostMapping
+    public ResponseEntity<Recipe> createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
+        Recipe createdRecipe = recipeService.createRecipe(recipeRequestDTO);
+        return new ResponseEntity<>(createdRecipe, HttpStatus.CREATED);
     }
 
-    public List<RecipeResponseDTO> getAllRecipes() {
-        return recipeService.getAllRecipes();
-    }
+    // TODO uncomment when ready to implement functions
+    // public RecipeResponseDTO updateRecipe(Long id, RecipeRequestDTO recipeRequest) {
+    //     return recipeService.updateRecipe(id, recipeRequest);
+    // }
 
-    public RecipeResponseDTO createRecipe(RecipeRequestDTO recipeRequest) {
-        return recipeService.createRecipe(recipeRequest);
-    }
-
-    public RecipeResponseDTO updateRecipe(Long id, RecipeRequestDTO recipeRequest) {
-        return recipeService.updateRecipe(id, recipeRequest);
-    }
-
-    public void deleteRecipe(Long id) {
-        recipeService.deleteRecipe(id);
-    }
+    // public void deleteRecipe(Long id) {
+    //     recipeService.deleteRecipe(id);
+    // }
 }
