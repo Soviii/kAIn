@@ -7,20 +7,14 @@ import com.example.steps.model.Step;
 import jakarta.persistence.*;
 
 import java.util.List;
-import java.util.UUID;
 
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "recipes")
 public class Recipe {
-
-    
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID recipe_uuid;
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Maps to SERIAL in PostgreSQL (auto-increment)
+    private Long id;
 
     private Long userId; // optional, if you're associating recipes with users
 
@@ -48,8 +42,12 @@ public class Recipe {
 
     // Getters and Setters
 
-    public UUID getRecipeUuid() {
-        return recipe_uuid;
+    public Long getRecipeId() {
+        return id;
+    }
+
+    public void setRecipeId(Long recipeId) {
+        this.id = recipeId;
     }
 
     public Long getUserId() {
