@@ -1,5 +1,3 @@
-// TODO REVIEW MODEL
-
 package com.example.recipes.model;
 
 import com.example.ingredients.model.Ingredient;
@@ -16,7 +14,7 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Maps to SERIAL in PostgreSQL (auto-increment)
     private Long id;
 
-    private Long userId; // optional, if you're associating recipes with users
+    private Long userId;
 
     private String title;
 
