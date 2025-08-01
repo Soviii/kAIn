@@ -1,18 +1,21 @@
 package com.example.recipes.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.recipes.dto.RecipeRequestDTO;
+import com.example.recipes.dto.RecipeResponseDTO;
 import com.example.recipes.model.Recipe;
 import com.example.recipes.service.RecipeService;
 
 
 @RestController
-@RequestMapping("/api/recipes")
+@RequestMapping("/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -36,9 +39,18 @@ public class RecipeController {
     //     return recipeService.createRecipe(recipeRequestDTO);
     // }
     @PostMapping
-    public ResponseEntity<Recipe> createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
-        Recipe createdRecipe = recipeService.createRecipe(recipeRequestDTO);
-        return new ResponseEntity<>(createdRecipe, HttpStatus.CREATED);
+    public ResponseEntity<RecipeResponseDTO> createRecipe(@RequestBody RecipeRequestDTO recipeRequestDTO) {
+        RecipeResponseDTO savedRecipe = recipeService.createRecipe(recipeRequestDTO);
+        URI location = ServletUriComponentsBuilder
+            .fromCurrentRequest()             // http://localhost:8080/recipes
+            .path("/{id}")
+            .buildAndExpand(savedRecipe.getRecipeId())
+            .toUri();
+
+        return ResponseEntity
+            .created(location)                // 201 Created + Location: /recipes/{uuid}
+            .body(savedRecipe);                   // JSON body = your RecipeResponseDTO
+    
     }
 
     // TODO uncomment when ready to implement functions
