@@ -6,11 +6,13 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "steps")
 public class Step {
+    // Declaring columns for the recipe table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Maps to SERIAL in PostgreSQL (auto-increment)
     private Long id;
 
     private int step_number;
+
     private String instruction;
 
     // making a reference to recipe obj and creating a foreign key relationship with the Recipe entity
@@ -19,7 +21,7 @@ public class Step {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    // Constructors, getters, and setters
+    // Constructors
     public Step() {}
 
     public Step(int step_number, String instruction, Recipe recipe) {
@@ -28,11 +30,12 @@ public class Step {
         this.recipe = recipe;
     }
 
-    public Long getId() {
+    // Getters and Setters
+    public Long getId() {       // used to get the step id
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id) {    // used to set the step id
         this.id = id;
     }
 
@@ -52,11 +55,11 @@ public class Step {
         this.instruction = instruction;
     }
 
-    public Recipe getRecipe() {
+    public Recipe getRecipe() {     // used to get the recipe associated with the step
         return recipe;
     }
 
-    public void setRecipe(Recipe recipe) {
+    public void setRecipe(Recipe recipe) {    // used to set the recipe associated with the step
         this.recipe = recipe;
     }
 }

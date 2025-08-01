@@ -10,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "recipes")
 public class Recipe {
+    // Declaring columns for the recipe table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Maps to SERIAL in PostgreSQL (auto-increment)
     private Long id;
@@ -39,12 +40,11 @@ public class Recipe {
     }
 
     // Getters and Setters
-
-    public Long getRecipeId() {
+    public Long getRecipeId() {         // used to get the recipe id
         return id;
     }
 
-    public void setRecipeId(Long recipeId) {
+    public void setRecipeId(Long recipeId) {       // used to set the recipe id 
         this.id = recipeId;
     }
 
@@ -72,19 +72,19 @@ public class Recipe {
         this.description = description;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {      // used to get the ingredients of the recipe
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {      // used to set the ingredients of the recipe
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public List<Step> getSteps() {      // used to get the steps of the recipe
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(List<Step> steps) {    // used to set the steps of the recipe
         this.steps = steps;
     }
 }

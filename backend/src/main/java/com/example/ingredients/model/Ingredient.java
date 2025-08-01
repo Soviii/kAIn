@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "ingredients")
 public class Ingredient {
+    // Declaring columns for the recipe table
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Maps to SERIAL in PostgreSQL (auto-increment)
     private Long id;
@@ -21,7 +22,7 @@ public class Ingredient {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    // Constructors, getters, and setters
+    // Constructors
     public Ingredient() {}
 
     public Ingredient(String name, double quantity, String unit, Recipe recipe) {
@@ -31,11 +32,12 @@ public class Ingredient {
         this.recipe = recipe;
     }
 
-    public Long getId() {
+    // Getters and Setters
+    public Long getId() {       // used to get the ingredient id
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id) {    // used to set the ingredient id
         this.id = id;
     }
 
@@ -63,11 +65,11 @@ public class Ingredient {
         this.unit = unit;
     }
 
-    public Recipe getRecipe() {
+    public Recipe getRecipe() {       // used to get the recipe associated with the ingredient
         return recipe;
     }
 
-    public void setRecipe(Recipe recipe) {
+    public void setRecipe(Recipe recipe) {    // used to set the recipe associated with the ingredient
         this.recipe= recipe;
     }
 }
