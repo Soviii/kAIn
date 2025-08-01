@@ -1,12 +1,11 @@
 package com.example.recipes.dto;
 
 import java.util.List;
-import java.util.UUID;
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
 
 public class RecipeResponseDTO {
-    private UUID recipeUuid;
+    private Long recipeId;
     private Long userId;
     private String title;
     private String description;
@@ -15,9 +14,9 @@ public class RecipeResponseDTO {
 
     public RecipeResponseDTO() {
     }
-    public RecipeResponseDTO(UUID recipeUuid, Long userId, String title, String description,
+    public RecipeResponseDTO(Long recipeId, Long userId, String title, String description,
                              List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
-        this.recipeUuid = recipeUuid;
+        this.recipeId = recipeId;
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -26,13 +25,13 @@ public class RecipeResponseDTO {
     }
     // getters & setters omitted for brevity
 
-    public UUID getRecipeUuid() {
-        return recipeUuid;
+    public Long getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipeUuid(UUID recipeUuid) {
-        this.recipeUuid = recipeUuid;
-    }   
+    public void setRecipeId(Long recipeId) {
+        this.recipeId = recipeId;
+    }
 
     public Long getUserId() {
         return userId;
