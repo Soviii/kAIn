@@ -1,20 +1,25 @@
 package com.example.ingredients.dto;
 
 public class IngredientRequestDTO {
+    // Declare fields
     private String name;
     private double quantity;
     private String unit;
 
-
+    // Default constructor
     public IngredientRequestDTO() {
+        // Default constructor required for some frameworks
     }
 
+    // Parameterized constructor
     public IngredientRequestDTO(String name, double quantity, String unit) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
 
+    // Getters and setters
+    // These methods are used to access and modify the fields of the IngredientRequestDTO class
     public String getName() {
         return name;
     }   
