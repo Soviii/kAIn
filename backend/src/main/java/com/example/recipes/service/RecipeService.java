@@ -31,6 +31,7 @@ public class RecipeService {
     /**
      * Create a new Recipe (POST /recipes)
      */
+    // TODO Figure out why recipe_id is set to null in db and add documentation to all files
     public RecipeResponseDTO createRecipe(RecipeRequestDTO dto) {
         // 1) Map DTO → Entity
         Recipe recipe = new Recipe();
@@ -44,6 +45,7 @@ public class RecipeService {
                 i.setName(iDto.getName());
                 i.setQuantity(iDto.getQuantity());
                 i.setRecipe(recipe);
+                i.setUnit(iDto.getUnit());
                 return i;
             })
             .collect(Collectors.toList());
@@ -65,7 +67,8 @@ public class RecipeService {
 
         // 3) Map Entity → Response DTO
         RecipeResponseDTO response = new RecipeResponseDTO();
-        response.setRecipeUuid(saved.getRecipeUuid());
+        // response.setRecipeUuid(saved.getRecipeUuid());
+        response.setRecipeId(saved.getRecipeId());
         response.setUserId(saved.getUserId());
         response.setTitle(saved.getTitle());
         response.setDescription(saved.getDescription());
