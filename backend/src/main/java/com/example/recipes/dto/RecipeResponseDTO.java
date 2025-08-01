@@ -5,6 +5,7 @@ import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
 
 public class RecipeResponseDTO {
+    // Declare fields
     private Long recipeId;
     private Long userId;
     private String title;
@@ -12,8 +13,12 @@ public class RecipeResponseDTO {
     private List<IngredientResponseDTO> ingredients;
     private List<StepResponseDTO> steps;
 
+    // Default constructor
     public RecipeResponseDTO() {
+        // Default constructor required for some frameworks
     }
+
+    // Parameterized constructor
     public RecipeResponseDTO(Long recipeId, Long userId, String title, String description,
                              List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
         this.recipeId = recipeId;
@@ -24,6 +29,8 @@ public class RecipeResponseDTO {
         this.steps = steps;
     }
 
+    // Getters and setters
+    // These methods are used to access and modify the fields of the RecipeResponseDTO class
     public Long getRecipeId() {
         return recipeId;
     }

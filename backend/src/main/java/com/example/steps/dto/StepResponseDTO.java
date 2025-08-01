@@ -1,20 +1,25 @@
 package com.example.steps.dto;
 
 public class StepResponseDTO {
+    // Declare fields
     private Long id;
     private String instruction;
-    private int step_number;
+    private int stepNumber;
 
+    // Default constructor
     public StepResponseDTO() {
+        // Default constructor required for some frameworks
     }
 
-    public StepResponseDTO(Long id, String instruction, Integer step_number) {
+    // Parameterized constructor
+    public StepResponseDTO(Long id, String instruction, Integer stepNumber) {
         this.id = id;
         this.instruction = instruction;
-        this.step_number = step_number;
+        this.stepNumber = stepNumber;
     }
 
     // Getters and setters
+    // These methods are used to access and modify the fields of the StepResponseDTO class
     public Long getId() {
         return id;
     }
@@ -23,19 +28,19 @@ public class StepResponseDTO {
         this.id = id;
     }
 
-    public String getinstruction() {
+    public String getInstruction() {
         return instruction;
     }
 
-    public void setinstruction(String instruction) {
+    public void setInstruction(String instruction) {
         this.instruction = instruction;
     }
 
-    public Integer getstep_number() {
-        return step_number;
+    public Integer getStepNumber() {
+        return stepNumber;
     }
 
-    public void setstep_number(Integer step_number) {
-        this.step_number = step_number;
+    public void setStepNumber(Integer stepNumber) {
+        this.stepNumber = stepNumber;
     }
 }
