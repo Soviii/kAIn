@@ -23,7 +23,6 @@ public class RecipeResponseDTO {
         this.ingredients = ingredients;
         this.steps = steps;
     }
-    // getters & setters omitted for brevity
 
     public Long getRecipeId() {
         return recipeId;
