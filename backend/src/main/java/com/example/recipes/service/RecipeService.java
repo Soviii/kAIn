@@ -3,11 +3,9 @@ package com.example.recipes.service;
 import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
 
-import com.example.ingredients.dto.IngredientRequestDTO;
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.ingredients.model.Ingredient;
 
-import com.example.steps.dto.StepRequestDTO;
 import com.example.steps.dto.StepResponseDTO;
 import com.example.steps.model.Step;
 
@@ -31,9 +29,8 @@ public class RecipeService {
     /**
      * Create a new Recipe (POST /recipes)
      */
-    // TODO Figure out why recipe_id is set to null in db and add documentation to all files
     public RecipeResponseDTO createRecipe(RecipeRequestDTO dto) {
-        // 1) Map DTO → Entity
+        // 1) Map DTO → Recipe Entity
         Recipe recipe = new Recipe();
         recipe.setUserId(dto.getUserId());
         recipe.setTitle(dto.getTitle());
@@ -63,11 +60,12 @@ public class RecipeService {
         recipe.setSteps(steps);
 
         // 2) Persist (cascades ingredients & steps)
+        // .save() function is built into the RecipeRepository interface because it extends JpaRepository
+        // which provides basic CRUD operations
         Recipe saved = recipeRepository.save(recipe);
 
-        // 3) Map Entity → Response DTO
+        // 3) Map Entity → Recipe Response DTO
         RecipeResponseDTO response = new RecipeResponseDTO();
-        // response.setRecipeUuid(saved.getRecipeUuid());
         response.setRecipeId(saved.getRecipeId());
         response.setUserId(saved.getUserId());
         response.setTitle(saved.getTitle());
@@ -91,6 +89,4 @@ public class RecipeService {
 
         return response;
     }
-
-    // (other CRUD methods would go here…)
 }
