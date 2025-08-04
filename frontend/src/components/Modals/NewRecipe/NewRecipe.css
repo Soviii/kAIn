@@ -2,3 +2,45 @@
     background: #dd2727 !important;
     opacity: 1 !important;
 }
+
+/* 
+Adjusts the size of modal
+Built-in Bootstrap class that's automatically applied to modal container 
+*/
+.modal-dialog {
+  max-width: 800px; 
+  width: 100%;
+}
+
+.save-recipe-button {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+
+.cancel-button {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+
+.add-ingredient-button,
+.add-step-button {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    box-shadow: none;
+    transition: background 0.2s;
+}
+
+.add-ingredient-button:hover,
+.add-step-button:hover,
+.save-recipe-button:hover,
+.cancel-button:hover {
+    background-color: darken(#0b5ed7, 5%);
+    color: #fff;
+}

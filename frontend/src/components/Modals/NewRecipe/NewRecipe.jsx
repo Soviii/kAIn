@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import './NewRecipe.css';
 
-const NewRecipe = () => {
+const NewRecipe = ({onClose, onSubmit}) => {  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [ingredients, setIngredients] = useState(['']);
@@ -37,82 +38,89 @@ const NewRecipe = () => {
     //   });
     const response = { ok: true }; // Mock response for testing
       console.log(JSON.stringify({ title, description, ingredients, steps }))
-
-      if (!response.ok) {
+      if (response.ok) {
+        setSuccess(true);
+        setTitle('');
+        setDescription('');
+        setIngredients(['']);
+        setSteps(['']);
+        // TODO: Update how we are creating a new recipe object if needed
+        const newRecipe = { title, description, ingredients, steps };
+        // Call the onSubmit prop with the new recipe to update the gallery view
+        onSubmit && onSubmit(newRecipe);
+      } else {
         throw new Error('Failed to submit recipe');
       }
-
-      setSuccess(true);
-      setTitle('');
-      setDescription('');
-      setIngredients(['']);
-      setSteps(['']);
     } catch (err) {
       setError(err.message || 'An error occurred');
     }
   };
 
-  return (
-    <form className="new-recipe-form" onSubmit={handleSubmit}>
+   return (
+    <Form className="new-recipe-form" onSubmit={handleSubmit}>
       <h2>Add New Recipe</h2>
-      {success && <div className="alert alert-success">Recipe submitted!</div>}
-      {error && <div className="alert alert-danger">{error}</div>}
-      <div className="mb-3">
-        <label className="form-label">Title</label>
-        <input
-          className="form-control"
+      {success && <Alert variant="success">Recipe submitted!</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
+      <Form.Group className="mb-3">
+        <Form.Label>Title</Form.Label>
+        <Form.Control
           value={title}
           onChange={e => setTitle(e.target.value)}
           required
         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Description</label>
-        <textarea
-          className="form-control"
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Description</Form.Label>
+        <Form.Control
+          as="textarea"
           value={description}
           onChange={e => setDescription(e.target.value)}
           rows={2}
         />
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Ingredients</label>
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Ingredients</Form.Label>
         {ingredients.map((ing, idx) => (
           <div key={idx} className="d-flex mb-2">
-            <input
-              className="form-control"
+            <Form.Control
               value={ing}
               onChange={e => handleIngredientChange(idx, e.target.value)}
               required
             />
             {idx === ingredients.length - 1 && (
-              <button type="button" className="btn btn-secondary ms-2" onClick={addIngredient}>
-                +
-              </button>
+              <Button className="add-ingredient-button" onClick={addIngredient}>
+                + Ingredient
+              </Button>
             )}
           </div>
         ))}
-      </div>
-      <div className="mb-3">
-        <label className="form-label">Steps</label>
+      </Form.Group>
+      <Form.Group className="mb-3">
+        <Form.Label>Steps</Form.Label>
         {steps.map((step, idx) => (
           <div key={idx} className="d-flex mb-2">
-            <input
-              className="form-control"
+            <Form.Control
               value={step}
               onChange={e => handleStepChange(idx, e.target.value)}
               required
             />
             {idx === steps.length - 1 && (
-              <button type="button" className="btn btn-secondary ms-2" onClick={addStep}>
-                +
-              </button>
+              <Button className="add-step-button" onClick={addStep}>
+                + Step
+              </Button>
             )}
           </div>
         ))}
-      </div>
-      <button type="submit" className="btn btn-primary">Save Recipe</button>
-    </form>
+      </Form.Group>
+      <Row className="justify-content-center mt-3">
+        <Col xs={5} className="d-flex justify-content-end">
+          <Button className="save-recipe-button">Save Recipe</Button>
+        </Col>
+        <Col xs={5} className="d-flex justify-content-start">
+          <Button className="cancel-button" onClick={onClose}>Cancel</Button>
+        </Col>
+      </Row>
+    </Form>
   );
 };
 
