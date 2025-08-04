@@ -18,6 +18,8 @@ Built-in Bootstrap class that's automatically applied to modal container
     border-radius: 0.375rem;
     box-shadow: none;
     transition: background 0.2s;
+    color: #000;
+    background-color: lightgreen;
 }
 
 .cancel-button {
@@ -26,6 +28,8 @@ Built-in Bootstrap class that's automatically applied to modal container
     border-radius: 0.375rem;
     box-shadow: none;
     transition: background 0.2s;
+    color: #000;
+    background-color: transparent
 }
 
 .add-ingredient-button,
@@ -35,6 +39,8 @@ Built-in Bootstrap class that's automatically applied to modal container
     border-radius: 0.375rem;
     box-shadow: none;
     transition: background 0.2s;
+    color: #000;
+    background-color: lightgreen;
 }
 
 .add-ingredient-button:hover,

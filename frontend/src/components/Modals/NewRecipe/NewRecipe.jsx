@@ -117,7 +117,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
           <Button className="save-recipe-button">Save Recipe</Button>
         </Col>
         <Col xs={5} className="d-flex justify-content-start">
-          <Button className="cancel-button" onClick={onClose}>Cancel</Button>
+          <Button className="cancel-button" variant="outline-primary" onClick={onClose}>Cancel</Button>
         </Col>
       </Row>
     </Form>
