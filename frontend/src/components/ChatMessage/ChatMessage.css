@@ -1,0 +1,25 @@
+.messageDiv {
+    display: flex;
+    margin: 12px 0;
+}
+
+.message-bubble {
+    max-width: 60%;
+    padding: 6px 10px;
+    border-radius: 16px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    font-size: 0.8rem;
+}
+
+.message-bubble.user {
+    background: hsl(28, 93%, 81%); /* Warm terracotta */;
+    margin-left: auto; /* Align to right */
+    text-align: right;
+}
+
+.message-bubble.ai {
+    background: hsl(35 30% 90%); /* Light gray */
+    margin-right: auto; /* Align to left */
+    text-align: left;
+}
