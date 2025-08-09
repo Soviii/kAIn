@@ -1,0 +1,10 @@
+.modal-content {
+  background: #fff !important;
+  opacity: 1 !important;
+}
+
+.modal-backdrop.show {
+  opacity: 1 !important;
+  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.2) !important;
+}
