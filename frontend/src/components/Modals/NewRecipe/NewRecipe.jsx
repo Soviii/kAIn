@@ -2,29 +2,50 @@ import React, { useState } from 'react';
 import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import './NewRecipe.css';
 
+//  TODO add in the "tag" field to the recipe form, should come after Title
 const NewRecipe = ({onClose, onSubmit}) => {  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [ingredients, setIngredients] = useState(['']);
-  const [steps, setSteps] = useState(['']);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [ingredients, setIngredients] = useState([
+    { name: '', quantity: '', unit: '' }
+  ]);
+  const [steps, setSteps] = useState([
+    {instruction: '', stepNumber: 1}
+  ]);
 
-  const handleIngredientChange = (idx, value) => {
+  // Function to handle changes in ingredient fields
+  const handleIngredientChange = (idx, field, value) => {
     const updated = [...ingredients];
-    updated[idx] = value;
+    updated[idx] = { ...updated[idx], [field]: value };
     setIngredients(updated);
   };
 
-  const handleStepChange = (idx, value) => {
+  // Function to handle changes in step fields
+  const handleStepChange = (idx, field, value) => {
     const updated = [...steps];
-    updated[idx] = value;
+    updated[idx] = { ...updated[idx], [field]: value };
     setSteps(updated);
   };
 
-  const addIngredient = () => setIngredients([...ingredients, '']);
-  const addStep = () => setSteps([...steps, '']);
+  // Function to handle deletion of an ingredient
+  const handleDeleteIngredient = (idx) => {
+    setIngredients(ingredients.filter((_,i) => i !== idx));
+  };
 
+  // Function to handle deletion of a step
+  const handleDeleteStep = (idx) => {
+    setSteps(steps.filter((_,i) => i !== idx));
+  };
+
+  // Function to add a new ingredient
+  const handleAddIngredient = () => setIngredients([...ingredients, { name: '', quantity: '', unit: '' }]);
+
+  // Function to add a new step
+  const handleAddStep = () => setSteps([...steps, { instruction: '', stepNumber: steps.length + 1 }]);
+
+  // Function to handle POST request to submit the recipe
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -80,35 +101,83 @@ const NewRecipe = ({onClose, onSubmit}) => {
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Ingredients</Form.Label>
-        {ingredients.map((ing, idx) => (
+        {ingredients.map((ingredientObj, idx) => (
           <div key={idx} className="d-flex mb-2">
             <Form.Control
-              value={ing}
-              onChange={e => handleIngredientChange(idx, e.target.value)}
+              placeholder="Qty"
+              type="number"
+              min="0"
+              value={ingredientObj.quantity}
+              onChange={e => handleIngredientChange(idx, 'quantity', e.target.value)}
+              required
+              style={{ width: 80 }}
+            />
+            <Form.Control
+              as="input"
+              list={`unit-options-${idx}`}
+              value={ingredientObj.unit}
+              onChange={e => handleIngredientChange(idx, 'unit', e.target.value)}
+              required
+              style={{ width: 100 }}
+              placeholder="Unit"
+            />
+            <datalist id={`unit-options-${idx}`}>
+              <option value="tsp" />
+              <option value="tbsp" />
+              <option value="cup" />
+              <option value="pcs" />
+              <option value="g" />
+              <option value="kg" />
+              <option value="ml" />
+              <option value="l" />
+            </datalist>
+            <Form.Control
+              value={ingredientObj.name}
+              onChange={e => handleIngredientChange(idx, "name", e.target.value)}
+              placeholder="Ingredient"
               required
             />
             {idx === ingredients.length - 1 && (
-              <Button className="add-ingredient-button" onClick={addIngredient}>
-                + Ingredient
+              <div> 
+              <Button className="add-ingredient-button" onClick={handleAddIngredient}>
+                + Add
               </Button>
+              </div>
             )}
+            <Button
+              className="remove-ingredient-button"
+              variant="outline-danger"
+              type="button"
+              onClick={() => {handleDeleteIngredient(idx)}}
+            >
+              Delete 
+            </Button>
           </div>
         ))}
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Steps</Form.Label>
-        {steps.map((step, idx) => (
+        {steps.map((stepObj, idx) => (
           <div key={idx} className="d-flex mb-2">
             <Form.Control
-              value={step}
-              onChange={e => handleStepChange(idx, e.target.value)}
+              value={stepObj.instruction}
+              onChange={e => handleStepChange(idx, "instruction", e.target.value)}
+              placeholder={`Step ${idx + 1}`}
               required
             />
             {idx === steps.length - 1 && (
-              <Button className="add-step-button" onClick={addStep}>
-                + Step
+              <Button className="add-step-button" onClick={handleAddStep}>
+                + Add
               </Button>
             )}
+            <Button
+              className="remove-ingredient-button"
+              variant="outline-danger"
+              type="button"
+              onClick={() => {handleDeleteIngredient(idx)}}
+            >
+              Delete
+            </Button>
           </div>
         ))}
       </Form.Group>
