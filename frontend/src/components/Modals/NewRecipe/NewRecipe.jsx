@@ -3,6 +3,8 @@ import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import './NewRecipe.css';
 
 //  TODO add in the "tag" field to the recipe form, should come after Title
+
+// TODO update css styling 
 const NewRecipe = ({onClose, onSubmit}) => {  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -44,6 +46,26 @@ const NewRecipe = ({onClose, onSubmit}) => {
 
   // Function to add a new step
   const handleAddStep = () => setSteps([...steps, { instruction: '', stepNumber: steps.length + 1 }]);
+
+  // Function to handle moving a step up
+  const handleMoveStepUp = (idx) => {
+    if (idx > 0) {
+      const updatedSteps = [...steps];
+      // swaps two items in the array with destructuring and without using temp variable
+      [updatedSteps[idx - 1], updatedSteps[idx]] = [updatedSteps[idx], updatedSteps[idx - 1]];
+      setSteps(updatedSteps);
+    }
+  };
+
+  // Function to handle moving a step down
+  const handleMoveStepDown = (idx) => {
+    if (idx < steps.length - 1) {
+      const updatedSteps = [...steps];
+      // swaps two items in the array with destructuring and without using temp variable
+      [updatedSteps[idx + 1], updatedSteps[idx]] = [updatedSteps[idx], updatedSteps[idx + 1]];
+      setSteps(updatedSteps);
+    }
+  };
 
   // Function to handle POST request to submit the recipe
   const handleSubmit = async (e) => {
@@ -88,6 +110,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
           value={title}
           onChange={e => setTitle(e.target.value)}
           required
+          className="recipe-title-input"
         />
       </Form.Group>
       <Form.Group className="mb-3">
@@ -97,6 +120,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
           value={description}
           onChange={e => setDescription(e.target.value)}
           rows={2}
+          className='recipe-description-input'
         />
       </Form.Group>
       <Form.Group className="mb-3">
@@ -111,6 +135,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
               onChange={e => handleIngredientChange(idx, 'quantity', e.target.value)}
               required
               style={{ width: 80 }}
+              className="ingredient-quantity-input"
             />
             <Form.Control
               as="input"
@@ -136,7 +161,9 @@ const NewRecipe = ({onClose, onSubmit}) => {
               onChange={e => handleIngredientChange(idx, "name", e.target.value)}
               placeholder="Ingredient"
               required
+              className="ingredient-name-input"
             />
+            <div className='action-buttons'>
             {idx === ingredients.length - 1 && (
               <div> 
               <Button className="add-ingredient-button" onClick={handleAddIngredient}>
@@ -153,31 +180,60 @@ const NewRecipe = ({onClose, onSubmit}) => {
               Delete 
             </Button>
           </div>
+          </div>
         ))}
       </Form.Group>
       <Form.Group className="mb-3">
         <Form.Label>Steps</Form.Label>
         {steps.map((stepObj, idx) => (
-          <div key={idx} className="d-flex mb-2">
+          <div key={idx} className="d-flex mb-2 align-items-center">
+            <div className="move-steps-container d-flex flex-column me-2"> 
+              <Button
+                className= "move-arrow-button"
+                variant="outline-secondary"
+                type="button"
+                onClick={() => handleMoveStepUp(idx)}
+                disabled={idx === 0}
+              >
+              ↑
+              </Button>
+              <Button
+                className= "move-arrow-button"
+                variant="outline-secondary"
+                type="button"
+                onClick={() => handleMoveStepDown(idx)}
+                disabled={idx === steps.length - 1}
+              >
+              ↓
+              </Button>
+            </div>
+            <Form.Label className="me-2 mb-0">{`${idx + 1}.`}</Form.Label>
             <Form.Control
               value={stepObj.instruction}
               onChange={e => handleStepChange(idx, "instruction", e.target.value)}
               placeholder={`Step ${idx + 1}`}
               required
+                className="step-instruction-input"
             />
+            <div className='action-buttons'>
             {idx === steps.length - 1 && (
-              <Button className="add-step-button" onClick={handleAddStep}>
+              <Button 
+                className="add-step-button" 
+                type="button"
+                onClick={handleAddStep}
+              >
                 + Add
               </Button>
             )}
             <Button
-              className="remove-ingredient-button"
+              className="remove-step-button"
               variant="outline-danger"
               type="button"
-              onClick={() => {handleDeleteIngredient(idx)}}
+              onClick={() => {handleDeleteStep(idx)}}
             >
-              Delete
+              Delete 
             </Button>
+          </div>
           </div>
         ))}
       </Form.Group>
@@ -186,7 +242,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
           <Button className="save-recipe-button">Save Recipe</Button>
         </Col>
         <Col xs={5} className="d-flex justify-content-start">
-          <Button className="cancel-button" variant="outline-primary" onClick={onClose}>Cancel</Button>
+          <Button className="cancel-button" variant="outline-primary" onClick={onClose}> Cancel </Button>
         </Col>
       </Row>
     </Form>

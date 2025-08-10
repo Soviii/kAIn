@@ -19,34 +19,86 @@ Built-in Bootstrap class that's automatically applied to modal container
     box-shadow: none;
     transition: background 0.2s;
     color: #000;
-    background-color: lightgreen;
+    background-color: hsl(28, 93%, 81%);
 }
 
-.cancel-button {
+.cancel-button, 
+.remove-ingredient-button,
+.remove-step-button {
     font-weight: 500;
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
     box-shadow: none;
     transition: background 0.2s;
     color: #000;
-    background-color: transparent
+    background-color: hsl(35 30% 90%);
+    width: 70px;
+    align-items: center;
 }
 
 .add-ingredient-button,
 .add-step-button {
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+    height: 40px; /* Adjust to match your .step-instruction-input height */
+    font-size: 1rem;
     border-radius: 0.375rem;
+    padding: 0 1rem;
     box-shadow: none;
-    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+    background-color: hsl(28, 93%, 81%);
     color: #000;
-    background-color: lightgreen;
+    border: 1px solid #000;
+    width: 70px; 
+    white-space: nowrap;      /* Prevents text wrapping */
+    justify-content: center;  /* Centers text if using flex */
 }
 
 .add-ingredient-button:hover,
 .add-step-button:hover,
 .save-recipe-button:hover,
-.cancel-button:hover {
+.cancel-button:hover,
+.remove-ingredient-button:hover {
     background-color: darken(#0b5ed7, 5%);
     color: #fff;
 }
+
+.move-steps-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-center;
+}
+
+.up-arrow-button,
+.down-arrow-button {
+    margin-bottom: 0.5rem;
+}
+
+.move-arrow-button {
+  width: 28px;
+  height: 28px;
+  line-height: 1;
+  padding: 2px 8px;
+}
+
+.step-instruction-input {
+    min-width: 300px;
+}
+
+.ingredient-quantity-input,
+.recipe-title-input,
+.recipe-description-input {     
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ced4da;
+    border-radius: 0.375rem;
+    font-size: 1rem;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left:auto;
+    gap: 0.5rem; /* Space between buttons */
+    padding-left: 0.5rem;
+}
+
