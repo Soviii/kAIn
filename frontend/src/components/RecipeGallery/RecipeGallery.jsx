@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Spinner from '../Spinner/Spinner.jsx';
+import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import NewRecipe from '../Modals/NewRecipe/NewRecipe.jsx';
 import './RecipeGallery.css';
+
 
 const RecipeGallery = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [focusedRecipe, setFocusRecipe] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -25,7 +28,8 @@ const RecipeGallery = () => {
       setRecipes([
         {
           title: "Spaghetti Carbonara",
-          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper."
+          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
         },
         {
           title: "Chicken Tikka Masala",
@@ -77,14 +81,15 @@ const RecipeGallery = () => {
       ) : (
         <div className="row">
           {recipes.map((recipe, idx) => (
-            <div key={idx} className="col-md-4 mb-3">
-              <div className="card">
-                <div className="card-body">
-                  <h5 className="card-title">{recipe.title || `Recipe ${idx + 1}`}</h5>
-                  <p className="card-text">{recipe.description || 'No description available.'}</p>
-                </div>
-              </div>
-            </div>
+            <RecipeCard 
+            key={idx}
+            details={{
+              "idx": idx,
+              "title": recipe.title,
+              "description": recipe.description,
+              "tags": recipe.tags
+            }}
+            />
           ))}
         </div>
       )}

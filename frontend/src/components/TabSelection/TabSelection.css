@@ -1,0 +1,33 @@
+.tab-navbar {
+  justify-content: center;
+}
+
+.tab-container {
+  background-color: rgb(239, 239, 239);
+  border-radius: 6px;
+  width: 40vw;
+  padding: 5px 10px;
+}
+
+.curr-tab {
+  background-color: snow;
+  pointer-events: none;
+  padding: 10px 0;
+  border-radius: 4px;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.off-tab {
+  background-color: inherit;
+  padding: 10px 0;
+  border-radius: 4px;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.nav-link {
+  margin: 0;
+  font-weight: 500;
+  color: black;
+}
