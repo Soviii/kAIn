@@ -16,7 +16,6 @@ const Main = () => {
 
   return (
     <div className="container-fluid">
-      <TopNavBar />
       <TabSelection updateMainPage={updateMainPage} />
       {/* changes view based on TabSelection */}
       {currView === 0 ? (
