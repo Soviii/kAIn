@@ -39,10 +39,8 @@ public class UserService {
         }
 
         User newUser = new User(firstName, lastName, email, password);
-        Long id = newUser.getId();
-
-
         userRepository.save(newUser);
+        Long id = newUser.getId(); // must save user first before getting the id; JPA convention
 
         UserResponseDTO newUserResponse = new UserResponseDTO(firstName, lastName, email, password, id);
 

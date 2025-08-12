@@ -51,4 +51,12 @@ public class UserResponseDTO {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return this.id;
+    }
 }
