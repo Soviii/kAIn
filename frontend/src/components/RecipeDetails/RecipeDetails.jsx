@@ -1,5 +1,6 @@
 import './RecipeDetails.css';
-
+import trashIcon from "../../assets/trash-bin.png";
+import editIcon from "../../assets/edit-icon.png";
 // TODO: show details of highlighted recipe
 // const RecipeDetails = ({ recipe }) => {
 const RecipeDetails = () => {
@@ -37,9 +38,23 @@ const RecipeDetails = () => {
     ]
   }
 
+  const handleEditRecipe = () => {
+    console.log('edit recipe clicked');
+  }
+
+  const handleDeleteRecipe = () => {
+    console.log('delete recipe clicked');
+  }
+
   return (
     <div className="recipe-details-div">
-      <h1 className="recipe-name-h1">{recipe.title ?? `<RECIPE NAME>`}</h1>
+      <div className="recipe-header">
+        <h1 className="recipe-name-h1">{recipe.title ?? "<RECIPE NAME>"}</h1>
+        <div className="icons-div">
+          <img src={editIcon} onClick={handleEditRecipe} className="edit-img" width="30" alt="edit-image" />
+          <img src={trashIcon} onClick={handleDeleteRecipe} className="trash-img" width="30" alt="trash-image" />
+        </div>
+      </div>
       <p className="recipe-description-p">{recipe.description ?? `<RECIPE DESCRIPTION>`}</p>
       <div className="recipe-tag-list-div">
         {(recipe["tags"] || []).map((tag, idx) => (
@@ -63,7 +78,7 @@ const RecipeDetails = () => {
         <h3 className="instructions-h3">Instructions</h3>
         <ul className="instructions-ul">
           {(recipe["instructions"] || []).map((step, idx) => (
-            <li className="instructions-li">
+            <li className="instructions-li" key={idx}>
               <span className="step-number-span">{idx + 1}</span>
               <span className="step-info-span">{step}</span>
             </li>
