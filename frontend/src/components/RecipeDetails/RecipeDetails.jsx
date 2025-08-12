@@ -1,4 +1,3 @@
-import React from 'react';
 import './RecipeDetails.css';
 
 // TODO: show details of highlighted recipe
@@ -27,12 +26,19 @@ const RecipeDetails = () => {
       "do this",
       "then this",
       "also this",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
+      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!"
     ]
   }
 
   return (
-    <div>
+    <div className="recipe-details-div">
       <h1 className="recipe-name-h1">{recipe.title ?? `<RECIPE NAME>`}</h1>
       <p className="recipe-description-p">{recipe.description ?? `<RECIPE DESCRIPTION>`}</p>
       <div className="recipe-tag-list-div">

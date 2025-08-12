@@ -38,7 +38,46 @@ const RecipeGallery = () => {
         {
           title: "Vegetable Stir Fry",
           description: "Mixed vegetables sautéed in a savory sauce."
-        }
+        },
+        {
+          title: "Spaghetti Carbonara",
+          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+        },
+        {
+          title: "Chicken Tikka Masala",
+          description: "Grilled chicken pieces in a spicy curry sauce."
+        },
+        {
+          title: "Vegetable Stir Fry",
+          description: "Mixed vegetables sautéed in a savory sauce."
+        },
+        {
+          title: "Spaghetti Carbonara",
+          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+        },
+        {
+          title: "Chicken Tikka Masala",
+          description: "Grilled chicken pieces in a spicy curry sauce."
+        },
+        {
+          title: "Vegetable Stir Fry",
+          description: "Mixed vegetables sautéed in a savory sauce."
+        },
+        {
+          title: "Spaghetti Carbonara",
+          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+        },
+        {
+          title: "Chicken Tikka Masala",
+          description: "Grilled chicken pieces in a spicy curry sauce."
+        },
+        {
+          title: "Vegetable Stir Fry",
+          description: "Mixed vegetables sautéed in a savory sauce."
+        },
       ]);
       setLoading(false);
     }, 1000); // Simulate loading delay

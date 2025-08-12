@@ -1,5 +1,6 @@
 .card {
-  margin: 10px 20px;
+  margin: 25px auto;
+  width: 75%;
   transition: box-shadow 0.3s ease, background-color 0.3s ease;
   cursor: pointer;
 }

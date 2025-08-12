@@ -4,18 +4,24 @@
     width: fit-content;
 }
 
-.chat-pane-div {
-    height: 95vh;
-    display: flex;
-    flex-direction: column;
-}
-
 .chat-msgs-div {
     background-color: white;
     border-radius: 10px;
     padding: 0.5rem;
-    height: 100%;
     overflow-y: auto;
+    flex: 1;
+}
+
+.chat-pane-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.chat-input-form {
+  border-top: 1px solid #eee;
+  padding: 10px;
+  background: #fff;
 }
 
 .form-control,
