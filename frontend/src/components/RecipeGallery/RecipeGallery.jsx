@@ -5,10 +5,9 @@ import NewRecipe from '../Modals/NewRecipe/NewRecipe.jsx';
 import './RecipeGallery.css';
 
 
-const RecipeGallery = () => {
+const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }) => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [focusedRecipe, setFocusRecipe] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -29,7 +28,28 @@ const RecipeGallery = () => {
         {
           title: "Spaghetti Carbonara",
           description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"],
+          instructions: ["do this", "then this", "maybe this...?", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!"],
+          ingredients: [{
+            "name": "chicken",
+            "unit": "lbs",
+            "quantity": "1",
+          },
+          {
+            "name": "orange",
+            "unit": undefined,
+            "quantity": 4
+          },
+          {
+            "name": "special sauce",
+            "unit": "oz",
+            "quantity": 1
+          }, {
+            "name": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
+            "unit": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
+            "quantity": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae."
+        }],
+
         },
         {
           title: "Chicken Tikka Masala",
@@ -88,6 +108,24 @@ const RecipeGallery = () => {
     setShowModal(false);
   };
 
+  // switches to recipe details tab in main page and passes on clicked on recipe
+  const handleRecipeCardClicked = (recipeIdx) => {
+    // new focused recipe has to have recipeIdx be within bounds of recipes length (avoid index error)
+      // need to make new variable since during runtime of function, focusedRecipe useState variable isn't readily available
+    const newFocusedRecipe = recipeIdx >= recipes.length || recipeIdx < 0 ? {
+      title: "<ERROR>",
+      description: "<ERROR>",
+      "tags": [],
+      ingredients: {},
+      steps: []
+    } : recipes[recipeIdx];
+    updateMainPageWithHighlightedRecipe(newFocusedRecipe, recipeIdx);
+  }
+
+  useEffect(() => {
+    console.log(`focusedRecipeIdx is now: ${focusedRecipeIdx}`);
+  }, [focusedRecipeIdx]);
+
   return (
     <div>
       <div>
@@ -128,6 +166,8 @@ const RecipeGallery = () => {
               "description": recipe.description,
               "tags": recipe.tags
             }}
+            handleRecipeCardClicked={handleRecipeCardClicked}
+            isFocused={focusedRecipeIdx === idx ? true : false}
             />
           ))}
         </div>

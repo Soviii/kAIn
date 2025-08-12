@@ -1,42 +1,8 @@
 import './RecipeDetails.css';
 import trashIcon from "../../assets/trash-bin.png";
 import editIcon from "../../assets/edit-icon.png";
-// TODO: show details of highlighted recipe
-// const RecipeDetails = ({ recipe }) => {
-const RecipeDetails = () => {
-  const recipe = {
-    "title": "Orange Chicken",
-    "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptatibus, quibusdam aperiam! Earum, eos deserunt temporibus at dolorem nam molestias reiciendis fugit alias architecto? Facere reprehenderit quos incidunt doloribus eius. Explicabo.",
-    "tags": ["meatlovers", "sweet", "tasty", "easy"],
-    "ingredients": [{
-      "name": "chicken",
-      "unit": "lbs",
-      "quantity": "1",
-    },
-    {
-      "name": "orange",
-      "unit": undefined,
-      "quantity": 4
-    },
-    {
-      "name": "special sauce",
-      "unit": "oz",
-      "quantity": 1
-    }],
-    "instructions": [
-      "do this",
-      "then this",
-      "also this",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!",
-      "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa voluptatibus et, corporis sint tempore exercitationem sunt consequatur error beatae delectus quam nam perferendis. Beatae quia veritatis doloribus impedit nostrum inventore!"
-    ]
-  }
+
+const RecipeDetails = ({ recipe }) => {
 
   const handleEditRecipe = () => {
     console.log('edit recipe clicked');
