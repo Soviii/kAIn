@@ -1,13 +1,14 @@
-.new-recipe-modal {
-    background: #dd2727 !important;
-    opacity: 1 !important;
+
+.add-recipe-title {
+    font-weight: 700;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    width: 100%;
 }
 
-/* 
-Adjusts the size of modal
-Built-in Bootstrap class that's automatically applied to modal container 
-*/
-.modal-dialog {
+/* Adjusts the size of modal */
+.modal-dialog { 
   max-width: 800px; 
   width: 100%;
 }
@@ -32,8 +33,11 @@ Built-in Bootstrap class that's automatically applied to modal container
     transition: background 0.2s;
     color: #000;
     background-color: hsl(35 30% 90%);
-    width: 70px;
+    width: auto;
     align-items: center;
+    text-align: center;
+    margin-top: 0.2rem; /* Spacing between buttons */
+    margin-bottom: 0.2rem; /* Spacing between buttons */
 }
 
 .add-ingredient-button,
@@ -51,6 +55,8 @@ Built-in Bootstrap class that's automatically applied to modal container
     width: 70px; 
     white-space: nowrap;      /* Prevents text wrapping */
     justify-content: center;  /* Centers text if using flex */
+    margin-top: 0.2rem; /* Spacing between buttons */
+    margin-bottom: 0.2rem; /* Spacing between buttons */
 }
 
 .add-ingredient-button:hover,
@@ -60,12 +66,6 @@ Built-in Bootstrap class that's automatically applied to modal container
 .remove-ingredient-button:hover {
     background-color: darken(#0b5ed7, 5%);
     color: #fff;
-}
-
-.move-steps-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-center;
 }
 
 .up-arrow-button,
@@ -78,6 +78,14 @@ Built-in Bootstrap class that's automatically applied to modal container
   height: 28px;
   line-height: 1;
   padding: 2px 8px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left:auto;
+    gap: 0.5rem; /* Space between buttons */
+    padding-left: 0.5rem;
 }
 
 .step-instruction-input {
@@ -94,11 +102,31 @@ Built-in Bootstrap class that's automatically applied to modal container
     font-size: 1rem;
 }
 
-.action-buttons {
-    display: flex;
-    flex-direction: row;
-    margin-left:auto;
-    gap: 0.5rem; /* Space between buttons */
-    padding-left: 0.5rem;
+.form-section {
+    margin-bottom: 2rem; /* Space between form sections */
 }
 
+.ingredient-list,
+.steps-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem; /* Space between ingredient fields */
+}
+
+.move-steps-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.step-number {
+    margin-right: 0.5rem;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center; /* or flex-end for right, flex-start for left */
+  gap: 1rem;
+  margin-top: 2rem;
+}

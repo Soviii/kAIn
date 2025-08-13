@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert, Row, Col } from 'react-bootstrap';
+import { useState } from 'react';
+import { Form, Button, Alert } from 'react-bootstrap';
 import './NewRecipe.css';
 
 //  TODO add in the "tag" field to the recipe form, should come after Title
 
-// TODO update css styling 
 const NewRecipe = ({onClose, onSubmit}) => {  
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -41,10 +40,10 @@ const NewRecipe = ({onClose, onSubmit}) => {
     setSteps(steps.filter((_,i) => i !== idx));
   };
 
-  // Function to add a new ingredient
+  // Function to add a new ingredient obj
   const handleAddIngredient = () => setIngredients([...ingredients, { name: '', quantity: '', unit: '' }]);
 
-  // Function to add a new step
+  // Function to add a new step obj
   const handleAddStep = () => setSteps([...steps, { instruction: '', stepNumber: steps.length + 1 }]);
 
   // Function to handle moving a step up
@@ -68,19 +67,17 @@ const NewRecipe = ({onClose, onSubmit}) => {
   };
 
   // Function to handle POST request to submit the recipe
-  const handleSubmit = async (e) => {
+  const handleSubmitRecipe = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess(false);
 
     try {
-    //   const response = await fetch('/api/recipes', {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify({ title, description, ingredients, steps }),
-    //   });
-    const response = { ok: true }; // Mock response for testing
-      console.log(JSON.stringify({ title, description, ingredients, steps }))
+      const response = await fetch('http://localhost:8080/recipes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, description, ingredients, steps }),
+      });
       if (response.ok) {
         setSuccess(true);
         setTitle('');
@@ -88,7 +85,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
         setIngredients(['']);
         setSteps(['']);
         // TODO: Update how we are creating a new recipe object if needed
-        const newRecipe = { title, description, ingredients, steps };
+        const newRecipe = { title, description };
         // Call the onSubmit prop with the new recipe to update the gallery view
         onSubmit && onSubmit(newRecipe);
       } else {
@@ -100,11 +97,11 @@ const NewRecipe = ({onClose, onSubmit}) => {
   };
 
    return (
-    <Form className="new-recipe-form" onSubmit={handleSubmit}>
-      <h2>Add New Recipe</h2>
+    <Form className="new-recipe-form">
+      <h2 className="add-recipe-title">Add New Recipe</h2>
       {success && <Alert variant="success">Recipe submitted!</Alert>}
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form.Group className="mb-3">
+      <Form.Group className="form-section">
         <Form.Label>Title</Form.Label>
         <Form.Control
           value={title}
@@ -113,7 +110,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
           className="recipe-title-input"
         />
       </Form.Group>
-      <Form.Group className="mb-3">
+      <Form.Group className="form-section">
         <Form.Label>Description</Form.Label>
         <Form.Control
           as="textarea"
@@ -123,10 +120,10 @@ const NewRecipe = ({onClose, onSubmit}) => {
           className='recipe-description-input'
         />
       </Form.Group>
-      <Form.Group className="mb-3">
+      <Form.Group className="form-section">
         <Form.Label>Ingredients</Form.Label>
         {ingredients.map((ingredientObj, idx) => (
-          <div key={idx} className="d-flex mb-2">
+          <div key={idx} className="ingredient-list">
             <Form.Control
               placeholder="Qty"
               type="number"
@@ -164,56 +161,63 @@ const NewRecipe = ({onClose, onSubmit}) => {
               className="ingredient-name-input"
             />
             <div className='action-buttons'>
-            {idx === ingredients.length - 1 && (
-              <div> 
-              <Button className="add-ingredient-button" onClick={handleAddIngredient}>
-                + Add
+              {idx === ingredients.length - 1 && (
+                <Button 
+                className="add-ingredient-button" 
+                onClick={handleAddIngredient}
+                >
+                  + Add
+                </Button>
+              )}
+              <Button
+                className="remove-ingredient-button"
+                variant="outline-danger"
+                type="button"
+                onClick={() => {handleDeleteIngredient(idx)}}
+                disabled={ingredients.length === 1}
+              >
+                Delete 
               </Button>
-              </div>
-            )}
-            <Button
-              className="remove-ingredient-button"
-              variant="outline-danger"
-              type="button"
-              onClick={() => {handleDeleteIngredient(idx)}}
-            >
-              Delete 
-            </Button>
           </div>
           </div>
         ))}
       </Form.Group>
-      <Form.Group className="mb-3">
+      <Form.Group className="form-section">
         <Form.Label>Steps</Form.Label>
         {steps.map((stepObj, idx) => (
-          <div key={idx} className="d-flex mb-2 align-items-center">
-            <div className="move-steps-container d-flex flex-column me-2"> 
-              <Button
-                className= "move-arrow-button"
-                variant="outline-secondary"
-                type="button"
-                onClick={() => handleMoveStepUp(idx)}
-                disabled={idx === 0}
-              >
-              ↑
-              </Button>
-              <Button
-                className= "move-arrow-button"
-                variant="outline-secondary"
-                type="button"
-                onClick={() => handleMoveStepDown(idx)}
+          <div key={idx} className="steps-list">
+            <div className="move-steps-container"> 
+              {idx > 0 && (
+                <Button
+                  className= "move-arrow-button"
+                  variant="outline-secondary"
+                  type="button"
+                  onClick={() => handleMoveStepUp(idx)}
+                  disabled={idx === 0}
+                >
+                ↑
+                </Button>
+              )}
+              {idx < steps.length - 1 && (
+                <Button
+                  className= "move-arrow-button"
+                  variant="outline-secondary"
+                  type="button"
+                  onClick={() => handleMoveStepDown(idx)}
                 disabled={idx === steps.length - 1}
-              >
-              ↓
-              </Button>
+                >
+                ↓
+                </Button>
+              )}
+              
             </div>
-            <Form.Label className="me-2 mb-0">{`${idx + 1}.`}</Form.Label>
+            <Form.Label className="step-number">{`${idx + 1}.`}</Form.Label>
             <Form.Control
               value={stepObj.instruction}
               onChange={e => handleStepChange(idx, "instruction", e.target.value)}
               placeholder={`Step ${idx + 1}`}
               required
-                className="step-instruction-input"
+              className="step-instruction-input"
             />
             <div className='action-buttons'>
             {idx === steps.length - 1 && (
@@ -230,6 +234,7 @@ const NewRecipe = ({onClose, onSubmit}) => {
               variant="outline-danger"
               type="button"
               onClick={() => {handleDeleteStep(idx)}}
+              disabled={steps.length === 1}
             >
               Delete 
             </Button>
@@ -237,14 +242,10 @@ const NewRecipe = ({onClose, onSubmit}) => {
           </div>
         ))}
       </Form.Group>
-      <Row className="justify-content-center mt-3">
-        <Col xs={5} className="d-flex justify-content-end">
-          <Button className="save-recipe-button">Save Recipe</Button>
-        </Col>
-        <Col xs={5} className="d-flex justify-content-start">
-          <Button className="cancel-button" variant="outline-primary" onClick={onClose}> Cancel </Button>
-        </Col>
-      </Row>
+      <div className="button-row">
+        <Button className="save-recipe-button" onClick={handleSubmitRecipe}>Save Recipe</Button>
+        <Button className="cancel-button" variant="outline-danger" onClick={onClose}>Cancel</Button>
+      </div>
     </Form>
   );
 };
