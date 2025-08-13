@@ -1,0 +1,60 @@
+.no-msgs-avail-span {
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+.chat-pane-div {
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-msgs-div {
+    background-color: white;
+    border-radius: 10px;
+    padding: 0.5rem;
+    height: 100%;
+    overflow-y: auto;
+}
+
+.form-control,
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+    border-color: rgb(201, 201, 201);
+    font-size: 0.8rem;
+}
+
+.send-btn,
+.send-btn:hover,
+.send-btn:active,
+.send-btn:focus,
+.send-btn:focus:active {
+    outline: none !important;
+    box-shadow: none !important;
+    border-color: transparent;
+    font-size: 0.8rem;
+}
+
+.send-btn:active {
+    background-color: red;
+    transform: scale(0.95);
+}
+
+.send-btn:disabled {
+    background-color: hsl(28, 92%, 69%);
+    border-color: transparent;
+}
+
+.send-btn:enabled {
+    background-color: hsla(28, 100%, 67%);
+    /* border-color: rgb(148, 148, 148); */
+}
+
+
+.send-btn:active,
+.send-btn:focus:active {
+    background-color: #f1843c;
+    border-color: #f1843c;
+}
