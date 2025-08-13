@@ -140,10 +140,6 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
           <div className="modal d-block" tabIndex="-1">
             <div className="modal-dialog">
               <div className="modal-content">
-                {/* <div className="modal-header">
-                  <h5 className="modal-title">Add New Recipe</h5> */}
-                  {/* <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button> */}
-                {/* </div> */}
                 <div className="modal-body">
                   <NewRecipe 
                     onSubmit={handleAddRecipe}
