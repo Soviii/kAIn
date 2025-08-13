@@ -9,6 +9,5 @@ import java.util.List;
 //note when we "extends jpaRepository" we get a lot of methods for free, like save, findById, deleteById, etc.
 //we can also define our own methods here, like findByUserId
 public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
-    // TODO use this function for get method 
     List<Recipe> findAllByUserId(Long userId);
 }

@@ -1,6 +1,7 @@
 package com.example.recipes.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
 import com.example.recipes.service.RecipeService;
+import com.example.recipes.dto.RecipeSummaryDTO;
 
 
 @RestController
@@ -38,5 +40,12 @@ public class RecipeController {
             .created(location)                // 201 Created + Location: /recipes/{uuid}
             .body(savedRecipe);               // JSON body = your RecipeResponseDTO
     
+    }
+
+    // TODO FIGURE OUT WAY TO USE JWT TO GET USER ID INSTEAD OF PASSING IT IN 
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<RecipeSummaryDTO>> getRecipes(@PathVariable Long userId) {
+        List<RecipeSummaryDTO> recipes = recipeService.getRecipes(userId);
+        return ResponseEntity.ok(recipes);
     }
 }
