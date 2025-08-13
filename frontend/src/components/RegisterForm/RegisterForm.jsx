@@ -1,5 +1,5 @@
-import "../RegisterForm/RegisterForm.css";
-import React, { useState } from "react";
+import styles from "../RegisterForm/RegisterForm.module.css";
+import { useState } from "react";
 
 function FullScreenModal({ onClose }) {
   const [formData, setFormData] = useState({
@@ -49,30 +49,11 @@ function FullScreenModal({ onClose }) {
 
   return (
     //Styling for Modal to fill screen
-    <div
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 9999,
-      }}
+    <div className={styles["register-container-div"]}
+
     >
-      <div
-        style={{
-          color: "#F1D3B3",
-          backgroundColor: "#8B7E74",
-          padding: "50px 60px",
-          borderRadius: "25px",
-          minWidth: "400px",
-          maxWidth: "90vw",
-          textAlign: "right",
-        }}
+      <div className={styles["register-form-div"]}
+
         //end of stylings **************************
       >
         <form onSubmit={handleSubmit}>
@@ -130,7 +111,7 @@ function FullScreenModal({ onClose }) {
   );
 }
 
-export default function App() {
+export default function RegisterForm() {
   const [showModal, setShowModal] = useState(false);
 
   return (

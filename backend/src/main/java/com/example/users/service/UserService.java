@@ -21,8 +21,8 @@ public class UserService {
     
     public UserService (UserRepository userRepository){
         this.userRepository = userRepository;
-            
     }
+
     @Transactional
     public UserResponseDTO createUser(UserRequestDTO user){
         String firstName = user.getFirstName();
@@ -32,8 +32,6 @@ public class UserService {
         
         List<User> existingUsers = userRepository.findByEmail(email);
 
-       
-        System.out.println(existingUsers.size());
         if(existingUsers.size()>0){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists.");
         }
@@ -46,7 +44,4 @@ public class UserService {
 
         return newUserResponse;
     }
-
-    
 }
-
