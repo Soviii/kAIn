@@ -1,0 +1,5 @@
+.privacy-settings-div {
+  height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
