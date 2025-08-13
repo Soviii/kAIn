@@ -1,0 +1,29 @@
+:root {
+  --primary: #65647C;
+  --secondary: #8B7E74;
+  --tertiary: #C7BCA1;
+  --quaternary: #F1D3B3;
+}
+
+.register-container-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.register-form-div {
+  color: #F1D3B3;
+  background-color: #8B7E74;
+  padding: 50px 60px;
+  border-radius: 25px;
+  min-width: 400px;
+  max-width: 90vw;
+  text-align: right;
+}
