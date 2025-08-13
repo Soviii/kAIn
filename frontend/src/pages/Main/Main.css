@@ -1,3 +1,24 @@
-.mainpage-container {
-  min-height: 100vh;
+.recipe-chat-and-details-div {
+  display: flex;
+  flex-direction: row; /* Side-by-side by default */
+  height: 79vh; /* Full viewport height */
+  overflow: hidden; /* No outer scroll */
+}
+
+.recipe-details-col {
+  flex: 1; /* Each takes 50% width in row layout */
+  overflow-y: auto;
+  height: 100%; /* Full height of parent */
+}
+
+/* not making ai chat div scrollable; handling it inside component itself */
+.ai-chat-col {
+  flex: 1; /* Each takes 50% width in row layout */
+  height: 100%; /* Full height of parent */
+}
+
+.recipe-gallery-div-wrapper {
+  height: 79vh;
+  overflow-y: auto;
+  overflow-x: hidden;
 }

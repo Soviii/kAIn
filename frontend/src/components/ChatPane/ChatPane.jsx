@@ -94,7 +94,7 @@ const ChatPane = () => {
         {renderMessages()}
         <div ref={messagesEndRef} />
       </div>
-        <Form onSubmit={handleSubmitMessage} className="mt-3">
+        <Form onSubmit={handleSubmitMessage} className="chat-input-form">
           <InputGroup>
             <FormControl
               placeholder="Type a message..."

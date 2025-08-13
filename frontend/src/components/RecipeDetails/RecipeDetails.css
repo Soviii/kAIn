@@ -40,7 +40,7 @@
 }
 
 .horizontal-sep-hr {
-  margin: 30px 0px;
+  margin: 30px 50px;
 }
 
 .ingredients-list-div {
@@ -136,4 +136,29 @@
   font-size: 14px;
   line-height: 1.625;
   flex: 1; /* allow text to fill remaining space; may get rid of ... */
+}
+
+.recipe-header {
+  margin-top: 25px;
+  position: relative;        /* anchor for absolute icons */
+  text-align: center;        /* center h1  */
+  padding: 0.5rem 2.5rem;    /* extra right padding so icons don't overlap text */
+}
+
+.recipe-name-h1 {
+  margin: 0;
+}
+
+.icons-div {
+  position: absolute;
+  top: 0;           /* align to top of container */
+  right: 0;         /* stick to right edge */
+  display: flex;
+  margin-right: 10px;
+  gap: 15px;         /* space between icons */
+}
+
+.edit-img,
+.trash-img {
+  cursor: pointer;
 }
