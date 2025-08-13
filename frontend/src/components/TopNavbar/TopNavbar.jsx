@@ -30,7 +30,7 @@ const TopNavbar = () => {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand className="fw-bold" href="/home">
+        <Navbar.Brand className="fw-bold" href="/main">
           <img src={kainLogo}
             className="logo-img"
             width="30"

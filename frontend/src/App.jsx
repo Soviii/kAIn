@@ -31,7 +31,7 @@ function App() {
       )
     },
     {
-      path: "/home",
+      path: "/main",
       element: (
         <>
           <TopNavbar />
