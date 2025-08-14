@@ -1,6 +1,6 @@
 package com.example.users.dto;
 
-public class UserResponseDTO {
+public class CreateUserResponseDTO {
 
     private String firstName;
     private String lastName;
@@ -8,11 +8,10 @@ public class UserResponseDTO {
     private String password;
     private Long id;
 
-    public UserResponseDTO(){
+    // necessary for certain JPA functionalities
+    public CreateUserResponseDTO(){}
 
-    }
-
-    public UserResponseDTO (String firstName, String lastName, String email, String password, Long id){
+    public CreateUserResponseDTO (String firstName, String lastName, String email, String password, Long id){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

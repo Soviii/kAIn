@@ -2,7 +2,7 @@ package com.example.users.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
 
-public class UserRequestDTO{
+public class CreateUserRequestDTO{
 
     @NotBlank
     @NotNull
@@ -21,11 +21,11 @@ public class UserRequestDTO{
     private String password;
 
 
-public UserRequestDTO(){
+public CreateUserRequestDTO(){
 
 }
 
-public UserRequestDTO(String firstName, String lastName, String email, String password){
+public CreateUserRequestDTO(String firstName, String lastName, String email, String password){
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
