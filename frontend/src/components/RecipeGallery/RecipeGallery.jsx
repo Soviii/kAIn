@@ -38,7 +38,7 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
     fetchRecipes();
   }, [recipes]);
 
-    // Hardcoded recipes for now
+    // TODO delete comment of Hardcoded recipes
     // setTimeout(() => {
       // setRecipes([
       //   {
