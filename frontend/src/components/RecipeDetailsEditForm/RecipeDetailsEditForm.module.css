@@ -1,0 +1,192 @@
+.page {
+  min-height: 100vh;
+  background-color: #F9F9F9;
+  padding: 2rem 1rem;
+}
+
+.container {
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 2.25rem;
+  }
+}
+
+.subtitle {
+  color: rgb(119, 119, 119);
+}
+
+.card {
+  background-color: #FFFFFF;
+  border: 1px solid #c3c3c3;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px 0 hsla(0, 0%, 0%, 0.1);
+}
+
+.label {
+  display: block; 
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dedede;
+  border-radius: 0.5rem;
+  font-size: 1.125rem;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #bdbdbd;
+  box-shadow: 0 0 0 2px 0.2;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dedede;
+  border-radius: 0.5rem;
+  resize: none;
+  outline: none;
+}
+
+.textarea:focus {
+  border-color: #bdbdbd;
+  box-shadow: 0 0 0 2px 0.2;
+}
+
+/* Flex Header for Section */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.sectionActions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.2s ease;
+  background-color: rgb(255, 165, 87);
+  color: white;
+}
+
+.sectionActions:hover {
+  background-color: rgba(200, 131, 3, 0.82);
+  color: rgb(93, 93, 93);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.instructionRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.instructionNumber {
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: rgb(255, 165, 87);
+  color: white;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 0.5rem;
+}
+
+.instructionTextRow {
+  flex: 1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.removeButton {
+  padding: 0.5rem;
+  color: var(--muted-foreground);
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  margin-top: 0.25rem;
+}
+
+.removeButton:hover {
+  color: var(--destructive);
+}
+
+/* Action Buttons */
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.cancelBtn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: rgb(252, 166, 166);
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancelBtn:hover {
+  background-color: rgb(206, 109, 109);
+}
+
+.saveBtn {
+  padding: 0.75rem 1.5rem;
+  background-color: rgb(169, 249, 119);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.saveBtn:hover {
+  background-color: rgb(109, 178, 67);
+}

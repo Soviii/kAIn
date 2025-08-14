@@ -1,8 +1,11 @@
 import './RecipeDetails.css';
 import trashIcon from "../../assets/trash-bin.png";
 import editIcon from "../../assets/edit-icon.png";
+import { useState } from 'react';
+import RecipeDetailsEditForm from '../RecipeDetailsEditForm/RecipeDetailsEditForm';
 
 const RecipeDetails = ({ recipe }) => {
+  const [inEditMode, setInEditMode] = useState(false);
 
   const handleEditRecipe = () => {
     console.log('edit recipe clicked');
@@ -12,12 +15,26 @@ const RecipeDetails = ({ recipe }) => {
     console.log('delete recipe clicked');
   }
 
+  const handleCancelEdit = () => {
+    setInEditMode(false);
+  }
+
+  const handleSaveNewRecipeDetails = () => {
+    console.log(`saving recipe...`);
+  }
+
+  if (inEditMode) {
+    return (
+      <RecipeDetailsEditForm recipe={recipe} onCancel={handleCancelEdit} onSave={handleSaveNewRecipeDetails}/>
+    )
+  }
+
   return (
     <div className="recipe-details-div">
       <div className="recipe-header">
         <h1 className="recipe-name-h1">{recipe.title ?? "<RECIPE NAME>"}</h1>
         <div className="icons-div">
-          <img src={editIcon} onClick={handleEditRecipe} className="edit-img" width="30" alt="edit-image" />
+          <img src={editIcon} onClick={() => setInEditMode(true)} className="edit-img" width="30" alt="edit-image" />
           <img src={trashIcon} onClick={handleDeleteRecipe} className="trash-img" width="30" alt="trash-image" />
         </div>
       </div>
