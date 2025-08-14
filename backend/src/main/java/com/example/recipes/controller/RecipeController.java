@@ -43,7 +43,7 @@ public class RecipeController {
     }
 
     // TODO FIGURE OUT WAY TO USE JWT/SESSION COOKIE TO GET USER ID INSTEAD OF PASSING IT IN AS A HEADER
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<RecipeSummaryDTO>> getRecipes(@RequestHeader("user-id") Long userId) {
         List<RecipeSummaryDTO> recipes = recipeService.getRecipes(userId);
         return ResponseEntity.ok(recipes);

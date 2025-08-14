@@ -4,7 +4,8 @@ import './NewRecipe.css';
 
 //  TODO add in the "tag" field to the recipe form, should come after Title
 
-const NewRecipe = ({onClose, onSubmit}) => {  
+const NewRecipe = ({onClose, setRecipes}) => {  
+  const userId = 1; // TODO: replace with actual user ID from context or props
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [success, setSuccess] = useState(false);
@@ -76,18 +77,14 @@ const NewRecipe = ({onClose, onSubmit}) => {
       const response = await fetch('http://localhost:8080/recipes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, ingredients, steps }),
+        body: JSON.stringify({ title, description, ingredients, steps, userId }),
       });
       if (response.ok) {
         setSuccess(true);
-        setTitle('');
-        setDescription('');
-        setIngredients(['']);
-        setSteps(['']);
-        // TODO: Update how we are creating a new recipe object if needed
-        const newRecipe = { title, description };
-        // Call the onSubmit prop with the new recipe to update the gallery view
-        onSubmit && onSubmit(newRecipe);
+        setRecipes(prevRecipes => [...prevRecipes, { title, description, userId }]);
+        setTimeout(() => {
+          onClose();
+        }, 1000);
       } else {
         throw new Error('Failed to submit recipe');
       }
