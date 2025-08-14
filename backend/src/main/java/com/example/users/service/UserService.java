@@ -49,9 +49,24 @@ public class UserService {
         return newUserResponse;
     }
 
+
+    /**
+     * Validates a user's email and password against stored credentials.
+     *
+     * If the credentials match an existing user, returns a LoginUserResponseDTO
+     * containing the user's ID and a generated JWT token.
+     * If no match is found, throws a ResponseStatusException with HTTP 401 (Unauthorized).
+     *
+     * @param email    the user's email address
+     * @param password the user's password
+     * @return a LoginUserResponseDTO with the user's ID and a JWT token
+     * @throws ResponseStatusException if the credentials are invalid
+     * 
+     * TODO: implement JWT if server side sessions isn't manageable within timeframe
+     */
     @Transactional(readOnly = true)
-    public LoginUserResponseDTO validateUserCredentials(LoginUserRequestDTO userCreds) {
-        Optional<User> maybeUser = userRepository.findByEmailAndPassword(userCreds.getEmail(), userCreds.getPassword());
+    public LoginUserResponseDTO validateUserCredentials(String email, String password) {
+        Optional<User> maybeUser = userRepository.findByEmailAndPassword(email, password);
         User existingUser;
 
         if (maybeUser.isPresent()) {
