@@ -6,9 +6,10 @@ import ForgotPassword from './pages/ForgotPassword/ForgotPassword.jsx';
 import LoginAndRegister from './pages/LoginAndRegister/LoginAndRegister.jsx';
 import Main from './pages/Main/Main.jsx';
 import NotFound from './pages/NotFound/NotFound.jsx';
-import Profile from './pages/Profile/Profile.jsx';
+import AccountSettings from './pages/AccountSettings/AccountSettings.jsx';
 import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import TopNavbar from './components/TopNavbar/TopNavbar.jsx';
+import Privacy from './pages/Privacy/Privacy.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -49,11 +50,20 @@ function App() {
       )
     },
     {
-      path: "/profile",
+      path: "/account",
       element: (
         <>
           <TopNavbar />
-          <Profile />
+          <AccountSettings />
+        </>
+      )
+    },
+    {
+      path: "/privacy",
+      element: (
+        <>
+          <TopNavbar />
+          <Privacy />
         </>
       )
     },

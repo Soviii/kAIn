@@ -1,0 +1,150 @@
+.profile-sidebar {
+  width: 170px;
+  background: linear-gradient(135deg, #fff5f0, #ffebe0);
+  border-right: 1px solid #ffd4b8;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+
+  transition: width 0.3s ease;
+  box-shadow: 2px 0 10px rgba(255, 138, 76, 0.1);
+  z-index: 30;
+}
+
+.profile-sidebar.collapsed {
+  width: 64px;
+}
+
+.profile-sidebar-header {
+  padding: 1rem;
+  border-bottom: 1px solid #ffd4b8;
+  background: linear-gradient(135deg, #ffe4d6, #ffd4b8);
+}
+
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #d97706;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-toggle:hover {
+  background-color: rgba(217, 119, 6, 0.1);
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.profile-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff8c42, #d97706);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3);
+}
+
+.avatar-icon {
+  width: 1rem;
+  height: 1rem;
+  color: white;
+}
+
+.profile-details h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #7c2d12;
+  margin: 0;
+}
+
+.profile-details p {
+  font-size: 0.75rem;
+  color: #a16207;
+  margin: 0;
+}
+
+.profile-nav {
+  padding: 1rem 0.5rem;
+}
+
+.nav-group {
+  margin-top: 0.5rem;
+}
+
+.nav-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #a16207;
+  margin-bottom: 0.5rem;
+  padding: 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nav-item {
+  margin: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  color: #a16207;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 140, 66, 0.1);
+  color: #d97706;
+}
+
+.nav-link.active {
+  background: linear-gradient(135deg, rgba(255, 140, 66, 0.15), rgba(217, 119, 6, 0.1));
+  color: #d97706;
+  font-weight: 600;
+  border-right: 2px solid #d97706;
+}
+
+.nav-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.profile-sidebar.collapsed .nav-icon {
+  margin: 0 auto;
+}
+
+.nav-text {
+  font-weight: 500;
+}
+
+.profile-sidebar.collapsed .profile-details,
+.profile-sidebar.collapsed .nav-label,
+.profile-sidebar.collapsed .nav-text {
+  display: none;
+}

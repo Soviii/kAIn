@@ -28,7 +28,7 @@ const TopNavbar = () => {
   }, [])
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="navbar-container">
       <Container>
         <Navbar.Brand className="fw-bold" href="/main">
           <img src={kainLogo}
@@ -44,7 +44,7 @@ const TopNavbar = () => {
             {isLoggedIn === true ?
               <>
                 <Nav.Link href="/about-us">About Us</Nav.Link>
-                <Nav.Link href="/profile">Profile</Nav.Link>
+                <Nav.Link href="/account">Account</Nav.Link>
                 <Nav.Link onClick={handleSignOut}>Sign Out</Nav.Link>
               </>
               :

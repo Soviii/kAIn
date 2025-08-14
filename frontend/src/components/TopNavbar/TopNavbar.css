@@ -5,3 +5,7 @@
   zoom: 100%;
   margin: 10px;
 }
+
+.navbar-container {
+  border: 1px solid #d3d3d3;
+}
