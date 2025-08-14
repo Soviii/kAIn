@@ -36,7 +36,7 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
 
   useEffect(() => {
     fetchRecipes();
-  }, [recipes]);
+  }, []);
 
     // TODO delete comment of Hardcoded recipes
     // setTimeout(() => {
@@ -160,7 +160,7 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
                   <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                 </div>
                 <div className="modal-body">
-                  <NewRecipe onClose={() => setShowModal(false)} setRecipes={setRecipes} />
+                  <NewRecipe onClose={() => window.location.reload()} setRecipes={setRecipes} />
                 </div>
               </div>
             </div>
