@@ -10,6 +10,7 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
+  // Fetch recipes from get API or use hardcoded data
   useEffect(() => {
     // Uncomment and implement API call when backend is ready
     /*
@@ -104,9 +105,13 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
   }, []);
 
   const handleAddRecipe = (recipe) => {
-    setRecipes([...recipes, recipe]);
+    setRecipes(prev => [...prev, recipe]);
     setShowModal(false);
   };
+
+  const onCloseModal = () => {
+    setShowModal(false);
+  }
 
   // switches to recipe details tab in main page and passes on clicked on recipe
   const handleRecipeCardClicked = (recipeIdx) => {
@@ -122,15 +127,11 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
     updateMainPageWithHighlightedRecipe(newFocusedRecipe, recipeIdx);
   }
 
-  useEffect(() => {
-    console.log(`focusedRecipeIdx is now: ${focusedRecipeIdx}`);
-  }, [focusedRecipeIdx]);
-
   return (
     <div>
-      <div>
+      <div className="d-flex justify-content-between align-items-center mb-3">
         <h2>Saved Recipes</h2>
-        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
+        <button className="add-recipe-button" onClick={() => setShowModal(true)}>
           + Add Recipe
         </button>
       </div>
@@ -139,12 +140,11 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
           <div className="modal d-block" tabIndex="-1">
             <div className="modal-dialog">
               <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Add New Recipe</h5>
-                  <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
-                </div>
                 <div className="modal-body">
-                  <NewRecipe onSubmit={handleAddRecipe} />
+                  <NewRecipe 
+                    onSubmit={handleAddRecipe}
+                    onClose={onCloseModal} 
+                  />
                 </div>
               </div>
             </div>
