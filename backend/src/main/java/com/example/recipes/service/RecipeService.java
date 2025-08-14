@@ -2,6 +2,7 @@ package com.example.recipes.service;
 
 import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
+import com.example.recipes.dto.RecipeSummaryDTO;
 
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.ingredients.model.Ingredient;
@@ -89,4 +90,21 @@ public class RecipeService {
 
         return response;
     }
+
+    public List<RecipeSummaryDTO> getRecipes(Long userId) {
+        // gets all recipes for a specific user
+        List<Recipe> recipes = recipeRepository.findAllByUserId(userId);
+
+        // maps the Recipe entities to RecipeSummaryDTOs
+        return recipes.stream()
+            .map(r -> {
+                RecipeSummaryDTO dto = new RecipeSummaryDTO();
+                dto.setRecipeId(r.getRecipeId());
+                dto.setTitle(r.getTitle());
+                dto.setDescription(r.getDescription());
+                return dto;
+            })
+            .collect(Collectors.toList());
+    }
+
 }

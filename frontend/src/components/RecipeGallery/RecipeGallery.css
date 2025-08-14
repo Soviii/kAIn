@@ -24,3 +24,17 @@
   color: #fff;
 }
 
+.recipes-section {
+  max-width: 900px;      /* or whatever your card grid uses */
+  margin: 0 auto;
+  padding: 0 1rem;       /* match your card grid's horizontal padding */
+}
+
+.saved-recipes-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  margin-left: 0;
+  margin-right: 0;
+}

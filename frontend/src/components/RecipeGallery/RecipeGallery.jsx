@@ -6,112 +6,123 @@ import './RecipeGallery.css';
 
 
 const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }) => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState([
+    {title: '', description: '' }
+  ]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  // Fetch recipes from get API or use hardcoded data
-  useEffect(() => {
-    // Uncomment and implement API call when backend is ready
-    /*
-    fetch('/api/recipes')
-      .then(res => res.json())
-      .then(data => {
-        setRecipes(data);
+  // custom hook that gets all recipes associated with user and sets the recipes useState
+  const fetchRecipes = async () => {
+      // TODO DONT USE HARD CODED USER ID VALUE
+      try {
+        const response = await fetch('http://localhost:8080/recipes', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'user-id': '1'
+          },
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setRecipes(data);
+        }
+      } catch (error) {
+        console.error('Error fetching recipes:', error);
+      } finally {
         setLoading(false);
-      })
-      .catch(() => setLoading(false));
-    */
+      }
+    };
 
-    // Hardcoded recipes for now
-    setTimeout(() => {
-      setRecipes([
-        {
-          title: "Spaghetti Carbonara",
-          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"],
-          instructions: ["do this", "then this", "maybe this...?", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!"],
-          ingredients: [{
-            "name": "chicken",
-            "unit": "lbs",
-            "quantity": "1",
-          },
-          {
-            "name": "orange",
-            "unit": undefined,
-            "quantity": 4
-          },
-          {
-            "name": "special sauce",
-            "unit": "oz",
-            "quantity": 1
-          }, {
-            "name": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
-            "unit": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
-            "quantity": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae."
-        }],
-
-        },
-        {
-          title: "Chicken Tikka Masala",
-          description: "Grilled chicken pieces in a spicy curry sauce."
-        },
-        {
-          title: "Vegetable Stir Fry",
-          description: "Mixed vegetables sautéed in a savory sauce."
-        },
-        {
-          title: "Spaghetti Carbonara",
-          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-        },
-        {
-          title: "Chicken Tikka Masala",
-          description: "Grilled chicken pieces in a spicy curry sauce."
-        },
-        {
-          title: "Vegetable Stir Fry",
-          description: "Mixed vegetables sautéed in a savory sauce."
-        },
-        {
-          title: "Spaghetti Carbonara",
-          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-        },
-        {
-          title: "Chicken Tikka Masala",
-          description: "Grilled chicken pieces in a spicy curry sauce."
-        },
-        {
-          title: "Vegetable Stir Fry",
-          description: "Mixed vegetables sautéed in a savory sauce."
-        },
-        {
-          title: "Spaghetti Carbonara",
-          description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-          tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-        },
-        {
-          title: "Chicken Tikka Masala",
-          description: "Grilled chicken pieces in a spicy curry sauce."
-        },
-        {
-          title: "Vegetable Stir Fry",
-          description: "Mixed vegetables sautéed in a savory sauce."
-        },
-      ]);
-      setLoading(false);
-    }, 1000); // Simulate loading delay
+  useEffect(() => {
+    fetchRecipes();
   }, []);
 
-  const handleAddRecipe = (recipe) => {
-    setRecipes(prev => [...prev, recipe]);
-    setShowModal(false);
-  };
+    // TODO delete comment of Hardcoded recipes
+    // setTimeout(() => {
+      // setRecipes([
+      //   {
+      //     title: "Spaghetti Carbonara",
+      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"],
+      //     instructions: ["do this", "then this", "maybe this...?", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!"],
+      //     ingredients: [{
+      //       "name": "chicken",
+      //       "unit": "lbs",
+      //       "quantity": "1",
+      //     },
+      //     {
+      //       "name": "orange",
+      //       "unit": undefined,
+      //       "quantity": 4
+      //     },
+      //     {
+      //       "name": "special sauce",
+      //       "unit": "oz",
+      //       "quantity": 1
+      //     }, {
+      //       "name": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
+      //       "unit": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
+      //       "quantity": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae."
+      //   }],
 
-  const onCloseModal = () => {
-    setShowModal(false);
-  }
+      //   },
+      //   {
+      //     title: "Chicken Tikka Masala",
+      //     description: "Grilled chicken pieces in a spicy curry sauce."
+      //   },
+      //   {
+      //     title: "Vegetable Stir Fry",
+      //     description: "Mixed vegetables sautéed in a savory sauce."
+      //   },
+      //   {
+      //     title: "Spaghetti Carbonara",
+      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+      //   },
+      //   {
+      //     title: "Chicken Tikka Masala",
+      //     description: "Grilled chicken pieces in a spicy curry sauce."
+      //   },
+      //   {
+      //     title: "Vegetable Stir Fry",
+      //     description: "Mixed vegetables sautéed in a savory sauce."
+      //   },
+      //   {
+      //     title: "Spaghetti Carbonara",
+      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+      //   },
+      //   {
+      //     title: "Chicken Tikka Masala",
+      //     description: "Grilled chicken pieces in a spicy curry sauce."
+      //   },
+      //   {
+      //     title: "Vegetable Stir Fry",
+      //     description: "Mixed vegetables sautéed in a savory sauce."
+      //   },
+      //   {
+      //     title: "Spaghetti Carbonara",
+      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
+      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
+      //   },
+      //   {
+      //     title: "Chicken Tikka Masala",
+      //     description: "Grilled chicken pieces in a spicy curry sauce."
+      //   },
+      //   {
+      //     title: "Vegetable Stir Fry",
+      //     description: "Mixed vegetables sautéed in a savory sauce."
+      //   },
+      // ]);
+  //     setLoading(false);
+  //   }, 1000); // Simulate loading delay
+  // }, []);
+
+  // const handleAddRecipe = (recipe) => {
+  //   setRecipes([...recipes, recipe]);
+  //   setShowModal(false);
+  // };
 
   // switches to recipe details tab in main page and passes on clicked on recipe
   const handleRecipeCardClicked = (recipeIdx) => {
@@ -127,11 +138,15 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
     updateMainPageWithHighlightedRecipe(newFocusedRecipe, recipeIdx);
   }
 
+  useEffect(() => {
+    console.log(`focusedRecipeIdx is now: ${focusedRecipeIdx}`);
+  }, [focusedRecipeIdx]);
+
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
+    <div className="recipes-section">
+      <div className='saved-recipes-container'>
         <h2>Saved Recipes</h2>
-        <button className="add-recipe-button" onClick={() => setShowModal(true)}>
+        <button className="btn btn-primary" onClick={() => setShowModal(true)}>
           + Add Recipe
         </button>
       </div>
@@ -140,11 +155,12 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
           <div className="modal d-block" tabIndex="-1">
             <div className="modal-dialog">
               <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Add New Recipe</h5>
+                  <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                </div>
                 <div className="modal-body">
-                  <NewRecipe 
-                    onSubmit={handleAddRecipe}
-                    onClose={onCloseModal} 
-                  />
+                  <NewRecipe onClose={() => window.location.reload()} setRecipes={setRecipes} />
                 </div>
               </div>
             </div>
