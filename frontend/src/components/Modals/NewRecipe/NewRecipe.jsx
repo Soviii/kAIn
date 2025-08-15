@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
+import { RecipeContext } from '../../../pages/Main/Main';
 import './NewRecipe.css';
 
 //  TODO add in the "tag" field to the recipe form, should come after Title
 
-const NewRecipe = ({onClose, setRecipes}) => {  
+const NewRecipe = ({ onClose }) => {  
   const userId = 1; // TODO: replace with actual user ID from context or props
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -16,6 +17,8 @@ const NewRecipe = ({onClose, setRecipes}) => {
   const [steps, setSteps] = useState([
     {instruction: '', stepNumber: 1}
   ]);
+  const { handleNewRecipeSuccess } = useContext(RecipeContext);
+
 
   // Function to handle changes in ingredient fields
   const handleIngredientChange = (idx, field, value) => {
@@ -80,10 +83,11 @@ const NewRecipe = ({onClose, setRecipes}) => {
         body: JSON.stringify({ title, description, ingredients, steps, userId }),
       });
       if (response.ok) {
+        const data = await response.json();
         setSuccess(true);
-        setRecipes(prevRecipes => [...prevRecipes, { title, description, userId }]);
         setTimeout(() => {
           onClose();
+          handleNewRecipeSuccess(data["recipeId"], data);
         }, 1000);
       } else {
         throw new Error('Failed to submit recipe');

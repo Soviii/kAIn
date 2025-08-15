@@ -1,8 +1,10 @@
-import React, {useState} from 'react';
+import { useContext } from 'react';
+import { RecipeContext } from '../../pages/Main/Main';
 import './RecipeCard.css';
 
-const RecipeCard = ({ details, handleRecipeCardClicked, isFocused }) => {
-    const [f, setF] = useState(0);
+const RecipeCard = ({ details, isFocused }) => {
+  const { handleRecipeCardClicked } = useContext(RecipeContext);
+
   // update main page to switch tabs to recipe details and show this recipe's info
   const onClick = () => {
     handleRecipeCardClicked(details["idx"]);

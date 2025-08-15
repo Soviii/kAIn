@@ -1,146 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useContext } from 'react';
 import Spinner from '../Spinner/Spinner.jsx';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import NewRecipe from '../Modals/NewRecipe/NewRecipe.jsx';
 import './RecipeGallery.css';
 
 
-const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }) => {
-  const [recipes, setRecipes] = useState([
-    {title: '', description: '' }
-  ]);
-  const [loading, setLoading] = useState(true);
+const RecipeGallery = ({ isLoading, focusedRecipeId, recipeList }) => {
   const [showModal, setShowModal] = useState(false);
-
-  // custom hook that gets all recipes associated with user and sets the recipes useState
-  const fetchRecipes = async () => {
-      // TODO DONT USE HARD CODED USER ID VALUE
-      try {
-        const response = await fetch('http://localhost:8080/recipes', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'user-id': '1'
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setRecipes(data);
-        }
-      } catch (error) {
-        console.error('Error fetching recipes:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-  useEffect(() => {
-    fetchRecipes();
-  }, []);
-
-    // TODO delete comment of Hardcoded recipes
-    // setTimeout(() => {
-      // setRecipes([
-      //   {
-      //     title: "Spaghetti Carbonara",
-      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"],
-      //     instructions: ["do this", "then this", "maybe this...?", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!", " Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem vero magni quibusdam aspernatur dignissimos ipsa facere voluptas. Maiores tempore reiciendis distinctio quasi saepe corrupti animi quod autem! Quisquam, quas voluptates!"],
-      //     ingredients: [{
-      //       "name": "chicken",
-      //       "unit": "lbs",
-      //       "quantity": "1",
-      //     },
-      //     {
-      //       "name": "orange",
-      //       "unit": undefined,
-      //       "quantity": 4
-      //     },
-      //     {
-      //       "name": "special sauce",
-      //       "unit": "oz",
-      //       "quantity": 1
-      //     }, {
-      //       "name": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
-      //       "unit": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae.",
-      //       "quantity": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Fuga nam sed repudiandae repellendus sint beatae, adipisci eveniet ea accusantium amet, quae vero quasi modi ut officia soluta minus, facilis recusandae."
-      //   }],
-
-      //   },
-      //   {
-      //     title: "Chicken Tikka Masala",
-      //     description: "Grilled chicken pieces in a spicy curry sauce."
-      //   },
-      //   {
-      //     title: "Vegetable Stir Fry",
-      //     description: "Mixed vegetables sautéed in a savory sauce."
-      //   },
-      //   {
-      //     title: "Spaghetti Carbonara",
-      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-      //   },
-      //   {
-      //     title: "Chicken Tikka Masala",
-      //     description: "Grilled chicken pieces in a spicy curry sauce."
-      //   },
-      //   {
-      //     title: "Vegetable Stir Fry",
-      //     description: "Mixed vegetables sautéed in a savory sauce."
-      //   },
-      //   {
-      //     title: "Spaghetti Carbonara",
-      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-      //   },
-      //   {
-      //     title: "Chicken Tikka Masala",
-      //     description: "Grilled chicken pieces in a spicy curry sauce."
-      //   },
-      //   {
-      //     title: "Vegetable Stir Fry",
-      //     description: "Mixed vegetables sautéed in a savory sauce."
-      //   },
-      //   {
-      //     title: "Spaghetti Carbonara",
-      //     description: "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-      //     tags: ["documentation", "food", "june is a poopy head", "dadjasnajnd", "dasjdnasjdndj", "dajsdnajdnsadnajd", "dajsndadjnjdsna"]
-      //   },
-      //   {
-      //     title: "Chicken Tikka Masala",
-      //     description: "Grilled chicken pieces in a spicy curry sauce."
-      //   },
-      //   {
-      //     title: "Vegetable Stir Fry",
-      //     description: "Mixed vegetables sautéed in a savory sauce."
-      //   },
-      // ]);
-  //     setLoading(false);
-  //   }, 1000); // Simulate loading delay
-  // }, []);
-
-  // const handleAddRecipe = (recipe) => {
-  //   setRecipes([...recipes, recipe]);
-  //   setShowModal(false);
-  // };
-
-  // switches to recipe details tab in main page and passes on clicked on recipe
-  const handleRecipeCardClicked = (recipeIdx) => {
-    // new focused recipe has to have recipeIdx be within bounds of recipes length (avoid index error)
-      // need to make new variable since during runtime of function, focusedRecipe useState variable isn't readily available
-    const newFocusedRecipe = recipeIdx >= recipes.length || recipeIdx < 0 ? {
-      title: "<ERROR>",
-      description: "<ERROR>",
-      "tags": [],
-      ingredients: {},
-      steps: []
-    } : recipes[recipeIdx];
-    updateMainPageWithHighlightedRecipe(newFocusedRecipe, recipeIdx);
-  }
-
-  useEffect(() => {
-    console.log(`focusedRecipeIdx is now: ${focusedRecipeIdx}`);
-  }, [focusedRecipeIdx]);
 
   return (
     <div className="recipes-section">
@@ -160,30 +26,31 @@ const RecipeGallery = ({ focusedRecipeIdx, updateMainPageWithHighlightedRecipe }
                   <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                 </div>
                 <div className="modal-body">
-                  <NewRecipe onClose={() => window.location.reload()} setRecipes={setRecipes} />
+                  <NewRecipe onClose={() => console.log(`suppose to reload`)} />
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
-      {loading ? (
+      {isLoading ? (
         <Spinner />
-      ) : recipes.length === 0 ? (
+      ) : recipeList.length === 0 ? (
         <div className="text-muted">No recipes saved yet.</div>
       ) : (
         <div className="row">
-          {recipes.map((recipe, idx) => (
-            <RecipeCard 
-            key={idx}
-            details={{
-              "idx": idx,
-              "title": recipe.title,
-              "description": recipe.description,
-              "tags": recipe.tags
-            }}
-            handleRecipeCardClicked={handleRecipeCardClicked}
-            isFocused={focusedRecipeIdx === idx ? true : false}
+          {recipeList.slice() // need to slice since is const
+          .reverse()
+          .map((recipe, idx) => (
+            <RecipeCard
+              key={idx}
+              details={{
+                "idx": recipe["recipeId"],
+                "title": recipe["title"],
+                "description": recipe["description"],
+                "tags": recipe["tags"]
+              }}
+              isFocused={focusedRecipeId === recipe["recipeId"] ? true : false}
             />
           ))}
         </div>

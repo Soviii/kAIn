@@ -1,5 +1,5 @@
 package com.example.ingredients.dto;
-
+import com.example.ingredients.model.Ingredient;
 public class IngredientResponseDTO {
     // Declare fields
     private Long id;
@@ -16,6 +16,13 @@ public class IngredientResponseDTO {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
+    }
+
+    // used for converting Ingredient to IngredientResponseDTO
+    public IngredientResponseDTO(Ingredient ingredient) {
+        this.id = ingredient.getId();
+        this.name = ingredient.getName();
+        this.quantity = ingredient.getQuantity();
     }
 
     // Getters and setters 

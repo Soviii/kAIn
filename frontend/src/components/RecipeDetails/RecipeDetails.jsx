@@ -60,10 +60,10 @@ const RecipeDetails = ({ recipe }) => {
       <div className="instructions-div">
         <h3 className="instructions-h3">Instructions</h3>
         <ul className="instructions-ul">
-          {(recipe["instructions"] || []).map((step, idx) => (
+          {(recipe["steps"] || []).map((step, idx) => (
             <li className="instructions-li" key={idx}>
-              <span className="step-number-span">{idx + 1}</span>
-              <span className="step-info-span">{step}</span>
+              <span className="step-number-span">{step["stepNumber"]}</span>
+              <span className="step-info-span">{step["instruction"]}</span>
             </li>
           ))}
         </ul>
