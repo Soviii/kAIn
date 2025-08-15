@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import Spinner from '../Spinner/Spinner.jsx';
 import RecipeCard from '../RecipeCard/RecipeCard.jsx';
 import NewRecipe from '../Modals/NewRecipe/NewRecipe.jsx';

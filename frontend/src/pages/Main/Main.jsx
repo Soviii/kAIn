@@ -37,6 +37,8 @@ const Main = () => {
       console.error('Error fetching recipes:', error);
     } finally {
       setLoading(false);
+      setFocusedRecipe({});
+      setFocusedRecipeId(-1);
     }
   };
 
@@ -103,37 +105,37 @@ const Main = () => {
 
 
   return (
-    <div className="container-fluid">
-      <TabSelection handleTabSelectionClicked={handleTabSelectionClicked} focusedTab={currTab} />
-      {/* changes view based on TabSelection */}
-      {currTab === 0 ? (
-        <div className="recipe-gallery-div-wrapper">
-          <RecipeContext.Provider value={{ handleRecipeCardClicked, handleNewRecipeSuccess }}>
+    <RecipeContext.Provider value={{ handleRecipeCardClicked, handleNewRecipeSuccess, fetchRecipeSummaries, handleTabSelectionClicked }}>
+      <div className="container-fluid">
+        <TabSelection handleTabSelectionClicked={handleTabSelectionClicked} focusedTab={currTab} />
+        {/* changes view based on TabSelection */}
+        {currTab === 0 ? (
+          <div className="recipe-gallery-div-wrapper">
             <RecipeGallery isLoading={isLoading} focusedRecipeId={focusedRecipeId} recipeList={recipeList} />
-          </RecipeContext.Provider>
-        </div>
-      ) : (
-        <>
-          {browserWidth > breakpoint ? (
-            <div>
-              <div className="recipe-chat-and-details-div">
-                <div className="recipe-details-col">
-                  <RecipeDetails recipe={focusedRecipe} />
-                </div>
-                <div className="ai-chat-col">
-                  <ChatPane />
+          </div>
+        ) : (
+          <>
+            {browserWidth > breakpoint ? (
+              <div>
+                <div className="recipe-chat-and-details-div">
+                  <div className="recipe-details-col">
+                    <RecipeDetails recipe={focusedRecipe} />
+                  </div>
+                  <div className="ai-chat-col">
+                    <ChatPane />
+                  </div>
                 </div>
               </div>
-            </div>
-          ) : (
-            <div>
-              <RecipeDetails recipe={focusedRecipe} />
-              <ChatPane />
-            </div>
-          )}
-        </>
-      )}
-    </div>
+            ) : (
+              <div>
+                <RecipeDetails recipe={focusedRecipe} />
+                <ChatPane />
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </RecipeContext.Provider>
   );
 };
 

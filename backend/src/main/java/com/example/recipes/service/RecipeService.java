@@ -1,5 +1,6 @@
 package com.example.recipes.service;
 
+import com.example.recipes.dto.DeleteRecipeDTO;
 import com.example.recipes.dto.RecipeDetailsDTO;
 import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
@@ -11,6 +12,9 @@ import com.example.ingredients.repository.IngredientRepository;
 import com.example.steps.dto.StepResponseDTO;
 import com.example.steps.model.Step;
 import com.example.steps.repository.StepsRepository;
+
+import jakarta.transaction.Transactional;
+
 import com.example.recipes.model.Recipe;
 import com.example.recipes.repository.RecipeRepository;
 
@@ -163,5 +167,39 @@ public class RecipeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Did not find recipe details with recipe id of " + recipeId + " and user ID of " + userId);
         }
         return existingRecipe;
+    }
+
+    /**
+     * Deletes a recipe along with its associated steps and ingredients for a given user.
+     *
+     * This method performs the following operations
+     * 
+     *     Deletes all steps associated with the recipe using {@code stepsRepository.deleteByRecipeId(recipeId)}
+     *     Deletes all ingredients associated with the recipe using {@code ingredientRepository.deleteByRecipeId(recipeId)}
+     *     Deletes the recipe itself using {@code recipeRepository.deleteByUserIdAndId(userId, recipeId)}
+     * 
+     *
+     * If no recipe is found for the given {@code userId} and {@code recipeId}, a
+     * {@link org.springframework.web.server.ResponseStatusException} with {@link org.springframework.http.HttpStatus#NOT_FOUND} is thrown.
+     *
+     * @param userId   the ID of the user who owns the recipe
+     * @param recipeId the ID of the recipe to delete
+     * @return a {@link DeleteRecipeDTO} representing the result of the delete operation
+     * @throws org.springframework.web.server.ResponseStatusException if the recipe does not exist
+     */
+    @Transactional
+    public DeleteRecipeDTO deleteRecipe(Long userId, Long recipeId) {
+        /* TODO: verify session with server side rendering and */
+        DeleteRecipeDTO deleteRecipeDTO;
+        stepsRepository.deleteByRecipeId(recipeId);
+        ingredientRepository.deleteByRecipeId(recipeId);
+        
+        int deletedCount = recipeRepository.deleteByUserIdAndId(userId, recipeId);
+        if (deletedCount == 0) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found");
+        }
+
+        deleteRecipeDTO = new DeleteRecipeDTO(); // will initially return nothing unless other devs mention something...
+        return deleteRecipeDTO;
     }
 }

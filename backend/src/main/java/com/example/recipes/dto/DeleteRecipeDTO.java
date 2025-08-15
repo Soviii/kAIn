@@ -5,7 +5,7 @@ import java.util.List;
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
 
-public class RecipeDetailsDTO {
+public class DeleteRecipeDTO {
 
     private Long recipeId;
     private String title;
@@ -13,14 +13,11 @@ public class RecipeDetailsDTO {
     private List<IngredientResponseDTO> ingredients;
     private List<StepResponseDTO> steps;
 
-    // Default constructor
-    public RecipeDetailsDTO() {
-        // Default constructor required for some frameworks
-    }
+    // necessary for some JPA features
+    public DeleteRecipeDTO() {}
 
-    // Parameterized constructor
-    public RecipeDetailsDTO(Long recipeId, String title, String description,
-                             List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
+    public DeleteRecipeDTO(Long recipeId, String title, String description,
+            List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
         this.recipeId = recipeId;
         this.title = title;
         this.description = description;
@@ -28,8 +25,6 @@ public class RecipeDetailsDTO {
         this.steps = steps;
     }
 
-    // Getters and setters
-    // These methods are used to access and modify the fields of the RecipeResponseDTO class
     public Long getRecipeId() {
         return recipeId;
     }
@@ -37,7 +32,6 @@ public class RecipeDetailsDTO {
     public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
     }
-
 
     public String getTitle() {
         return title;
