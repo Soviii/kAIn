@@ -5,7 +5,7 @@ public class RecipeSummaryDTO {
     private Long recipeId;
     private String title;
     private String description;
-
+    
     // Default constructor 
     public RecipeSummaryDTO() {
         // Default constructor required for some frameworks

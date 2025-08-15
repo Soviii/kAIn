@@ -162,3 +162,36 @@
 .trash-img {
   cursor: pointer;
 }
+
+.edit-recipe-details-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background-color: #2861ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.edit-recipe-details-btn:hover {
+  background-color: #1e40af;
+}
+
+.delete-recipe-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.delete-recipe-btn:hover {
+  background-color: #b91c1c;
+}

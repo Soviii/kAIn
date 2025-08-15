@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.recipes.dto.DeleteRecipeDTO;
+import com.example.recipes.dto.RecipeDetailsDTO;
 import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
 import com.example.recipes.service.RecipeService;
@@ -44,8 +46,20 @@ public class RecipeController {
 
     // TODO FIGURE OUT WAY TO USE JWT/SESSION COOKIE TO GET USER ID INSTEAD OF PASSING IT IN AS A HEADER
     @GetMapping
-    public ResponseEntity<List<RecipeSummaryDTO>> getRecipes(@RequestHeader("user-id") Long userId) {
+    public ResponseEntity<List<RecipeSummaryDTO>> getRecipes(@RequestHeader("userId") Long userId) {
         List<RecipeSummaryDTO> recipes = recipeService.getRecipes(userId);
         return ResponseEntity.ok(recipes);
+    }
+
+    // Retrieves details for specific recipe (doesn't return user id)
+    @GetMapping("/details")
+    public ResponseEntity<RecipeDetailsDTO> getRecipeDetails(@RequestHeader("userId") Long userId, @RequestHeader("recipeId") Long recipeId) {
+        return ResponseEntity.ok(this.recipeService.getRecipeDetails(userId, recipeId));
+    }
+
+    // Deletes passed in recipeId
+    @DeleteMapping
+    public ResponseEntity<DeleteRecipeDTO> deleteRecipe(@RequestHeader("userId") Long userId, @RequestHeader("recipeId") Long recipeId) {
+        return ResponseEntity.ok(this.recipeService.deleteRecipe(userId, recipeId));
     }
 }

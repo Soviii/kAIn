@@ -1,5 +1,7 @@
 package com.example.steps.dto;
 
+import com.example.steps.model.Step;
+
 public class StepResponseDTO {
     // Declare fields
     private Long id;
@@ -16,6 +18,13 @@ public class StepResponseDTO {
         this.id = id;
         this.instruction = instruction;
         this.stepNumber = stepNumber;
+    }
+
+    // used for converting Step to StepResponseDTO
+    public StepResponseDTO(Step step) {
+        this.id = step.getId();
+        this.instruction = step.getInstruction();
+        this.stepNumber = step.getStepNumber();
     }
 
     // Getters and setters
