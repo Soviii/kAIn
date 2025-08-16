@@ -13,6 +13,9 @@ import com.example.recipes.dto.RecipeRequestDTO;
 import com.example.recipes.dto.RecipeResponseDTO;
 import com.example.recipes.service.RecipeService;
 import com.example.recipes.dto.RecipeSummaryDTO;
+import com.example.recipes.dto.UpdateRecipeRequestDTO;
+import com.example.recipes.dto.UpdateRecipeResponseDTO;
+import jakarta.validation.Valid;
 
 
 @RestController
@@ -61,5 +64,10 @@ public class RecipeController {
     @DeleteMapping
     public ResponseEntity<DeleteRecipeDTO> deleteRecipe(@RequestHeader("userId") Long userId, @RequestHeader("recipeId") Long recipeId) {
         return ResponseEntity.ok(this.recipeService.deleteRecipe(userId, recipeId));
+    }
+
+    @PatchMapping
+    public ResponseEntity<UpdateRecipeResponseDTO> updateRecipe(@Valid @RequestBody UpdateRecipeRequestDTO newRecipeInfo) {
+        return ResponseEntity.ok(this.recipeService.updateRecipe(newRecipeInfo.getRecipeId(), newRecipeInfo));
     }
 }

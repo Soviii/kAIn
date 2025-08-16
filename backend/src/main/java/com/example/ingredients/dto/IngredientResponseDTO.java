@@ -5,6 +5,7 @@ public class IngredientResponseDTO {
     private Long id;
     private String name;
     private double quantity;
+    private String unit;
 
     // Default constructor
     public IngredientResponseDTO() {
@@ -12,10 +13,11 @@ public class IngredientResponseDTO {
     }
 
     // Parameterized constructor
-    public IngredientResponseDTO(Long id, String name, double quantity) {
+    public IngredientResponseDTO(Long id, String name, double quantity, String unit) {
         this.id = id;
         this.name = name;
         this.quantity = quantity;
+        this.unit = unit;
     }
 
     // used for converting Ingredient to IngredientResponseDTO
@@ -23,6 +25,7 @@ public class IngredientResponseDTO {
         this.id = ingredient.getId();
         this.name = ingredient.getName();
         this.quantity = ingredient.getQuantity();
+        this.unit = ingredient.getUnit();
     }
 
     // Getters and setters 
@@ -49,5 +52,13 @@ public class IngredientResponseDTO {
 
     public void setQuantity(double quantity) {
         this.quantity = quantity;
+    }
+
+    public String getUnit() {
+        return this.unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

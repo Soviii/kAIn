@@ -7,9 +7,6 @@ import DeleteRecipeModal from '../DeleteRecipeForm/DeleteRecipeModal';
 const RecipeDetails = ({ recipe }) => {
   const [inEditMode, setInEditMode] = useState(false);
   const [inDeleteMode, setInDeleteMode] = useState(false);
-  const handleEditRecipe = () => {
-    console.log('edit recipe clicked');
-  }
 
   // deletes passed in recipe ID
   const handleDeleteRecipe = async () => {
@@ -35,11 +32,6 @@ const RecipeDetails = ({ recipe }) => {
     setInEditMode(false);
   }
 
-  // updates recipe with new info
-  const handleSaveNewRecipeDetails = () => {
-    console.log(`saving recipe...`);
-  }
-
   // closes delete recipe modal
   const handleCloseDeleteRecipeModal = () => {
     setInDeleteMode(false);
@@ -47,7 +39,7 @@ const RecipeDetails = ({ recipe }) => {
 
   if (inEditMode) {
     return (
-      <RecipeDetailsEditForm recipe={recipe} onCancel={handleCancelEdit} onSave={handleSaveNewRecipeDetails} />
+      <RecipeDetailsEditForm recipe={recipe} onCancel={handleCancelEdit} />
     )
   }
 

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * Key configuration details:
  * - Applies CORS rules to all endpoints ("**").
  * - Allows requests only from http://localhost:3000.
- * - Permits GET, POST, PUT, DELETE, and OPTIONS methods.
+ * - Permits GET, POST, PUT, PATCH, DELETE, and OPTIONS methods.
  * - Accepts any HTTP headers from the client.
  * - Supports credentials (e.g., cookies, authorization headers).
  *
@@ -31,7 +31,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                     .allowedOrigins("http://localhost:3000")
-                    .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
                     .allowedHeaders("*") 
                     .allowCredentials(true);
             }

@@ -5,8 +5,8 @@ import { RecipeContext } from "../../pages/Main/Main";
 
 const DeleteRecipeModal = ({ recipeTitle, handleCloseDeleteRecipeModal, handleDeleteRecipe }) => {
   const [deleteStatus, setDeleteStatus] = useState(null); // null | success | fail
-  const { fetchRecipeSummaries, handleTabSelectionClicked } = useContext(RecipeContext);
-
+  const { fetchRecipeSummaries, handleTabSelectionClicked, setFocusedRecipe, setFocusedRecipeId } = useContext(RecipeContext);
+  
   // deletes current focused recipe and redirects to recipes tab
   const handleDeleteButtonClicked = async () => {
     try {
@@ -18,11 +18,14 @@ const DeleteRecipeModal = ({ recipeTitle, handleCloseDeleteRecipeModal, handleDe
         // wait 2 seconds
         await new Promise(resolve => setTimeout(resolve, 2000));
 
-        handleCloseDeleteRecipeModal();
+        setFocusedRecipe({});
+        setFocusedRecipeId(-1);
         fetchRecipeSummaries();
         handleTabSelectionClicked(0);
+        handleCloseDeleteRecipeModal();
       } else {
         setDeleteStatus("fail");
+        await new Promise(resolve => setTimeout(resolve, 2000));
       }
     } catch (err) {
       console.error(err);

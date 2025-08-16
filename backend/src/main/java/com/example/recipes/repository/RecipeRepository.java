@@ -14,6 +14,7 @@ import java.util.Optional;
 public interface RecipeRepository extends JpaRepository<Recipe, UUID> {
     List<Recipe> findAllByUserId(Long userId);
     Optional<Recipe> findByUserIdAndId(Long userId, Long id);
+    Optional<Recipe> findById(Long id);
 
     @Modifying // necessary for delete, insert, or patch
     int deleteByUserIdAndId(Long userId, Long id);
