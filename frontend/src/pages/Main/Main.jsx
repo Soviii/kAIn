@@ -35,16 +35,13 @@ const Main = () => {
       }
     } catch (error) {
       console.error('Error fetching recipes:', error);
-    } finally {
-      setLoading(false);
-      setFocusedRecipe({});
-      setFocusedRecipeId(-1);
     }
   };
 
   // fetches recipe summaries on first load of main page
   useEffect(() => {
     fetchRecipeSummaries();
+    setLoading(false);
   }, []);
 
   // receives updates from TabSelection component to render new view
@@ -86,10 +83,31 @@ const Main = () => {
     }
   }
 
+  // updates recipe with new info
+  const handleUpdateRecipe = async (updatedRecipeInfo) => {
+    try {
+      const response = await fetch('http://localhost:8080/recipes', {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'userId': 1, // TODO: update userId to be retrieved from JWT or server side session
+        },
+        body: JSON.stringify({...updatedRecipeInfo, "recipeId": focusedRecipeId})
+      });
+      if (response.ok) {
+        setFocusedRecipe(updatedRecipeInfo);
+        return 0; // meaning deleted successfully; tells DeleteRecipeModal to show confirm message
+      }
+    } catch (error) {
+      console.error('Error fetching recipes:', error);
+      return 1;
+    }
+  }
+
   // saves new recipe to recipeList and focuses it, then switch to recipe details tab
   const handleNewRecipeSuccess = (newRecipeId, newRecipe) => {
     setRecipeList([...recipeList, newRecipe]);
-    setFocusedRecipe(newRecipeId);
+    setFocusedRecipeId(newRecipeId);
     setFocusedRecipe(newRecipe);
     setCurrTab(1);
   }
@@ -105,7 +123,7 @@ const Main = () => {
 
 
   return (
-    <RecipeContext.Provider value={{ handleRecipeCardClicked, handleNewRecipeSuccess, fetchRecipeSummaries, handleTabSelectionClicked }}>
+    <RecipeContext.Provider value={{ handleRecipeCardClicked, handleNewRecipeSuccess, fetchRecipeSummaries, handleTabSelectionClicked, handleUpdateRecipe, setFocusedRecipe, setFocusedRecipeId }}>
       <div className="container-fluid">
         <TabSelection handleTabSelectionClicked={handleTabSelectionClicked} focusedTab={currTab} />
         {/* changes view based on TabSelection */}

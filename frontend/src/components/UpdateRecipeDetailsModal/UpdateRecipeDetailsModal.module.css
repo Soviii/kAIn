@@ -29,6 +29,7 @@
   cursor: pointer;
   color: #666;
 }
+
 .modal-close:hover {
   color: #111;
 }
@@ -78,6 +79,7 @@
   background: #f3f4f6;
   color: #333;
 }
+
 .cancel-btn:hover {
   background: #e5e7eb;
 }
@@ -86,6 +88,7 @@
   background: #dc2626;
   color: white;
 }
+
 .confirm-btn:hover {
   background: #b91c1c;
 }
@@ -106,13 +109,63 @@
   font-size: 1rem;
 }
 
+.modal-message-pending {
+  color: rgb(23, 23, 23);
+  font-weight: 600;
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1rem;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: scale(0.96);
   }
+
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInBackground {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.loading-spinner {
+  animation: spin 1.5s linear infinite;
+  color: #edaa24;
+}
+
+.loading-spinner-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
   }
 }

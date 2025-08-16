@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface StepsRepository extends JpaRepository<Step, Long>  {
     List<Step> findAllByRecipeId(Long recipeId);
+    List<Step> findByRecipeId(Long recipeId);
 
     @Modifying
     int deleteByRecipeId(Long recipeId);
