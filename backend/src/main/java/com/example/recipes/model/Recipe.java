@@ -28,6 +28,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Step> steps;
 
+    @Column(name = "message_count", nullable = false) // TODO: consult with other devs if this is ok
+    private Long messageCount = 0L;
+
     // Constructors
     public Recipe() {}
 
@@ -86,5 +89,13 @@ public class Recipe {
 
     public void setSteps(List<Step> steps) {    // used to set the steps of the recipe
         this.steps = steps;
+    }
+
+    public void increaseMessageCount(Long numOfMsgs) {
+        this.messageCount += numOfMsgs;
+    }
+
+    public Long getMessageCount() {
+        return this.messageCount;
     }
 }

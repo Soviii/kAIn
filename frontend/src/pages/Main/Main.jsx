@@ -141,14 +141,14 @@ const Main = () => {
                     <RecipeDetails recipe={focusedRecipe} />
                   </div>
                   <div className="ai-chat-col">
-                    <ChatPane />
+                    <ChatPane recipeId={focusedRecipeId} />
                   </div>
                 </div>
               </div>
             ) : (
               <div>
                 <RecipeDetails recipe={focusedRecipe} />
-                <ChatPane />
+                <ChatPane recipeId={focusedRecipeId} />
               </div>
             )}
           </>

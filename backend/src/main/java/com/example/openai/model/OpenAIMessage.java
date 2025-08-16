@@ -12,7 +12,7 @@ public class OpenAIMessage {
     private Long id;
 
     @Column(name = "recipe_id", nullable = false)
-    private Integer recipeId; // Foreign key to the recipes table (no JPA relationship here, just the ID)
+    private Long recipeId; // Foreign key to the recipes table (no JPA relationship here, just the ID)
 
     @Column(nullable = false, length = 20)
     private String sender; // Should be either 'user' or 'ai'
@@ -29,7 +29,7 @@ public class OpenAIMessage {
     }
 
     // Convenience constructor for easy instantiation
-    public OpenAIMessage(Integer recipeId, String sender, String messageText) {
+    public OpenAIMessage(Long recipeId, String sender, String messageText) {
         this.recipeId = recipeId;
         this.sender = sender; // either 'user' or 'ai'
         this.messageText = messageText;
@@ -42,11 +42,11 @@ public class OpenAIMessage {
         return id;
     }
 
-    public Integer getRecipeId() {
+    public Long getRecipeId() {
         return recipeId;
     }
 
-    public void setRecipeId(Integer recipeId) {
+    public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
     }
 

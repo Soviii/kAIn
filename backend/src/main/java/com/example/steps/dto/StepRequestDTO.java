@@ -1,5 +1,7 @@
 package com.example.steps.dto;
 
+import com.example.steps.model.Step;
+
 public class StepRequestDTO {
     // Declare fields
     private int stepNumber;
@@ -14,6 +16,12 @@ public class StepRequestDTO {
     public StepRequestDTO(int stepNumber, String instruction) {
         this.stepNumber = stepNumber;
         this.instruction = instruction;
+    }
+
+    // convert Step model to StepDTO
+    public StepRequestDTO(Step step) {
+        this.stepNumber = step.getStepNumber();
+        this.instruction = step.getInstruction();
     }
 
     // Getters and setters

@@ -13,6 +13,7 @@ public class Step {
 
     private int step_number;
 
+    @Column(columnDefinition = "TEXT") // allows unlimited length in Postgres (TODO: maybe fix????)
     private String instruction;
 
     // making a reference to recipe obj and creating a foreign key relationship with the Recipe entity

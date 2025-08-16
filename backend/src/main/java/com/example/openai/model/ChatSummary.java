@@ -12,10 +12,10 @@ public class ChatSummary {
     private Long id; // PK; 
 
     @Column(name = "recipe_id", nullable = false)
-    private Integer recipeId; // Foreign key to recipes table
+    private Long recipeId; // Foreign key to recipes table
 
-    @Column(name = "summary_text", nullable = false)
-    private String summaryText;
+    @Column(name = "text", columnDefinition = "TEXT", nullable = false)
+    private String text;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime timestamp; // Maps to TIMESTAMP in PostgreSQL
@@ -26,9 +26,9 @@ public class ChatSummary {
     }
 
     // Constructor for ease of initialization
-    public ChatSummary(Integer recipeId, String summaryText) {
+    public ChatSummary(Long recipeId, String summaryText) {
         this.recipeId = recipeId;
-        this.summaryText = summaryText;
+        this.text = summaryText;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -38,11 +38,11 @@ public class ChatSummary {
         return this.id;
     }
 
-    public Integer getRecipeId() {
+    public Long getRecipeId() {
         return this.recipeId;
     }
 
-    public void setRecipeId(Integer recipeId) {
+    public void setRecipeId(Long recipeId) {
         this.recipeId = recipeId;
     }
 
@@ -55,10 +55,10 @@ public class ChatSummary {
     }
 
     public String getSummaryText() {
-        return this.summaryText;
+        return this.text;
     }
 
     public void setSummaryText(String summaryText) {
-        this.summaryText = summaryText;
+        this.text = summaryText;
     }
 }
