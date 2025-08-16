@@ -1,35 +1,68 @@
-.no-msgs-avail-span {
-    display: block;
-    margin: 0 auto;
-    width: fit-content;
-}
-
-.chat-msgs-div {
-    background-color: white;
-    border-radius: 10px;
-    padding: 0.5rem;
-    overflow-y: auto;
-    flex: 1;
-}
-
 .chat-pane-div {
   display: flex;
   flex-direction: column;
   height: 100%;
+  max-height: 100%;
+  background: #fafafa;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 0.5rem;
+}
+
+.chat-pane-div h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  padding: 0.5rem;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.chat-msgs-div {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 0.75rem;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.chat-msgs-div::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-msgs-div::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.no-msgs-avail-span {
+  display: block;
+  margin: 1rem auto;
+  font-size: 0.9rem;
+  color: #888;
+  font-style: italic;
 }
 
 .chat-input-form {
   border-top: 1px solid #eee;
-  padding: 10px;
+  padding: 0.75rem;
   background: #fff;
+  border-radius: 0 0 12px 12px;
 }
 
 .form-control,
 .form-control:focus {
-    outline: none;
-    box-shadow: none;
-    border-color: rgb(201, 201, 201);
-    font-size: 0.8rem;
+  outline: none;
+  box-shadow: none;
+  border-color: #ccc;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
 }
 
 .send-btn,
@@ -37,30 +70,26 @@
 .send-btn:active,
 .send-btn:focus,
 .send-btn:focus:active {
-    outline: none !important;
-    box-shadow: none !important;
-    border-color: transparent;
-    font-size: 0.8rem;
-}
-
-.send-btn:active {
-    background-color: red;
-    transform: scale(0.95);
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  border: none;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .send-btn:disabled {
-    background-color: hsl(28, 92%, 69%);
-    border-color: transparent;
+  background-color: hsl(28, 92%, 85%);
+  color: #fff;
 }
 
 .send-btn:enabled {
-    background-color: hsla(28, 100%, 67%);
-    /* border-color: rgb(148, 148, 148); */
+  background-color: hsla(28, 100%, 67%);
+  color: #fff;
 }
 
-
-.send-btn:active,
-.send-btn:focus:active {
-    background-color: #f1843c;
-    border-color: #f1843c;
+.send-btn:active {
+  background-color: #f1843c;
+  transform: scale(0.95);
 }

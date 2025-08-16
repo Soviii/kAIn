@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OpenAIRequest {
     @NotNull
-    private Integer recipeId;
+    private Long recipeId;
 
     @NotBlank
     @JsonProperty("message")
@@ -16,7 +16,7 @@ public class OpenAIRequest {
     public OpenAIRequest() {}
 
     // Getters and setters
-    public Integer getRecipeId() {
+    public Long getRecipeId() {
         return recipeId;
     }
 

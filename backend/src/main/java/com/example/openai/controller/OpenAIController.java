@@ -4,7 +4,6 @@ package com.example.openai.controller;
 import com.example.openai.dto.OpenAIRequest;
 import com.example.openai.dto.OpenAIResponse;
 import com.example.config.JwtConfig;
-import com.example.openai.dto.ConversationListRequest;
 import com.example.openai.dto.ConversationListResponse;
 
 import com.example.openai.service.OpenAIService;
@@ -15,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/openai")
+@RequestMapping("/openai")
 public class OpenAIController {
 
     private final OpenAIService openAIService;
@@ -45,10 +44,9 @@ public class OpenAIController {
      * @throws ConstraintViolationException if recipeId is null
      */
     @GetMapping("/getchat")
-    public ConversationListResponse recipeConversation(@CookieValue(value = "kAIn-jwt", required = false) String token, @Valid ConversationListRequest req, HttpServletResponse response) {
+    public ConversationListResponse recipeConversation(@CookieValue(value = "kAIn-jwt", required = false) String token, @RequestHeader("recipeId") Long recipeId, HttpServletResponse response) {
         jwtConfig.checkAndRefreshTokenIfNeeded(token, response);
 
-        Integer recipeId = req.getRecipeId();
         return this.openAIService.getRecipeConversation(recipeId);
     }
 
@@ -67,8 +65,11 @@ public class OpenAIController {
     public OpenAIResponse chatWithRecipeAssistant(@CookieValue(value = "kAIn-jwt", required = false) String token, @Valid @RequestBody OpenAIRequest req, HttpServletResponse response) {
         jwtConfig.checkAndRefreshTokenIfNeeded(token, response);
 
-        Integer recipeId = req.getRecipeId();
+        Long recipeId = req.getRecipeId();
         String userMessage = req.getUserMessage();
         return this.openAIService.sendUserMessage(recipeId, userMessage);
     }
+
+
+    // TODO: create delete chat function
 }

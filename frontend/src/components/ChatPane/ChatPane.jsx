@@ -3,7 +3,7 @@ import { Form, FormControl, Button, InputGroup } from "react-bootstrap";
 import ChatMessage from '../ChatMessage/ChatMessage';
 import "./ChatPane.css";
 
-const ChatPane = () => {
+const ChatPane = ({ recipeId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const messagesEndRef = useRef(null);
@@ -12,10 +12,11 @@ const ChatPane = () => {
   // TODO: will have to update recipeId query parameter to be dynamic with highlighted recipe
   const fetchMessages = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/openai/getchat?recipeId=1", {
+      const response = await fetch("http://localhost:8080/openai/getchat", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
+          "recipeId": recipeId
         },
         credentials: "include"
       });
@@ -42,15 +43,14 @@ const ChatPane = () => {
         {"sender": "user", "msg": input.trim()}
       ]))
       setInput("");
-      // TODO: will have to pass in highlighted recipe's ID for recipeId
-      const response = await fetch("http://localhost:8080/api/openai/userchat", {
+      const response = await fetch("http://localhost:8080/openai/userchat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          recipeId: 1,
-          message: input.trim()
+          "recipeId": recipeId,
+          "message": input.trim()
         }),
         credentials: "include"
       });

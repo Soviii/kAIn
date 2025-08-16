@@ -1,10 +1,10 @@
 package com.example.openai.model;
 
-public class ChatMessage {
+public class ChatMessageDTO {
     private String sender;
     private String msg;
 
-    public ChatMessage(OpenAIMessage dbMsg) {
+    public ChatMessageDTO(OpenAIMessage dbMsg) {
         this.sender = dbMsg.getSender();
         this.msg = dbMsg.getMessageText();
     }
@@ -15,5 +15,13 @@ public class ChatMessage {
 
     public String getMsg() {
         return this.msg;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;   
     }
 }

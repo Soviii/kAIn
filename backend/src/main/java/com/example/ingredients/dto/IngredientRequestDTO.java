@@ -1,5 +1,7 @@
 package com.example.ingredients.dto;
 
+import com.example.ingredients.model.Ingredient;
+
 public class IngredientRequestDTO {
     // Declare fields
     private String name;
@@ -16,6 +18,13 @@ public class IngredientRequestDTO {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
+    }
+
+    // easy and safe way of converting Ingredient to IngredientDTO
+    public IngredientRequestDTO(Ingredient ingredient) {
+        this.name = ingredient.getName();
+        this.quantity = ingredient.getQuantity();
+        this.unit = ingredient.getUnit();
     }
 
     // Getters and setters

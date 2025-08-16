@@ -3,6 +3,7 @@ package com.example.recipes.dto;
 import java.util.List;
 
 import com.example.ingredients.dto.IngredientResponseDTO;
+import com.example.recipes.model.Recipe;
 import com.example.steps.dto.StepResponseDTO;
 
 public class RecipeDetailsDTO {
@@ -26,6 +27,20 @@ public class RecipeDetailsDTO {
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
+    }
+
+    public RecipeDetailsDTO(Recipe recipe) {
+        // this.recipeId = recipe.getRecipeId();
+        this.title = recipe.getTitle();
+        this.description = recipe.getDescription();
+        this.ingredients = recipe.getIngredients()
+                                .stream()
+                                .map(ing -> new IngredientResponseDTO(ing))
+                                .toList();
+        this.steps = recipe.getSteps()
+                        .stream()
+                        .map(s -> new StepResponseDTO(s))
+                        .toList();
     }
 
     // Getters and setters
