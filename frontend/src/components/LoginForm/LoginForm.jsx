@@ -2,8 +2,10 @@ import "../LoginForm/LoginForm.css"
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import RegisterForm from "../RegisterForm/RegisterForm";
+import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function LoginForm() {
+  const { setUserId } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,17 +22,18 @@ export default function LoginForm() {
         "email": email,
         "password": password
       },
+      credentials: "include"
     });
 
     if (!response.ok) {
       setFetchStatusMsg("Error code: " + response.status);
       return
     }
-
+    const data = await response.json();
+    setUserId(data["userId"]);
     setFetchStatusMsg("Correct credentials, redirecting to main page");
-    setTimeout(() => {
-      navigate("/main");
-    }, 1500);
+    await new Promise(resolve => setTimeout(resolve, 1250));
+    navigate("/main", { replace: true });
   }
 
   return (

@@ -7,7 +7,6 @@ import com.example.steps.dto.StepRequestDTO;
 
 public class RecipeRequestDTO {
     // Declare fields
-    private Long userId;
     private String title;
     private String description;
     private List<IngredientRequestDTO> ingredients;
@@ -19,8 +18,7 @@ public class RecipeRequestDTO {
     }
 
     // Parameterized constructor
-    public RecipeRequestDTO(Long userId, String title, String description, List<IngredientRequestDTO> ingredients, List<StepRequestDTO> steps) {
-        this.userId = userId;
+    public RecipeRequestDTO(String title, String description, List<IngredientRequestDTO> ingredients, List<StepRequestDTO> steps) {
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
@@ -29,14 +27,6 @@ public class RecipeRequestDTO {
 
     // Getters and setters
     // These methods are used to access and modify the fields of the RecipeRequestDTO class
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public String getTitle() {
         return title;
     }

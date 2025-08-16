@@ -48,10 +48,10 @@ public class RecipeService {
     /**
      * Create a new Recipe (POST /recipes)
      */
-    public RecipeResponseDTO createRecipe(RecipeRequestDTO dto) {
+    public RecipeResponseDTO createRecipe(RecipeRequestDTO dto, Long userId) {
         // 1) Map DTO → Recipe Entity
         Recipe recipe = new Recipe();
-        recipe.setUserId(dto.getUserId());
+        recipe.setUserId(userId);
         recipe.setTitle(dto.getTitle());
         recipe.setDescription(dto.getDescription());
 
@@ -273,10 +273,12 @@ public class RecipeService {
     
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+        recipe.setTitle(newRecipeInfo.getTitle());
+        recipe.setDescription(newRecipeInfo.getDescription());
+        recipeRepository.save(recipe);
 
         /* ---------- Steps ---------- */
         List<Step> existingSteps = stepsRepository.findAllByRecipeId(recipeId);
-        System.out.println("current number of steps is:" + existingSteps.size());
         Map<Long, Step> stepMap = existingSteps.stream()
                 .collect(Collectors.toMap(Step::getId, s -> s));
 
@@ -354,10 +356,9 @@ public class RecipeService {
 
         return new UpdateRecipeResponseDTO(
                 recipeId,
-                recipe.getTitle(),
-                recipe.getDescription(),
+                newRecipeInfo.getTitle(),
+                newRecipeInfo.getDescription(),
                 savedIngredients,
                 savedSteps);
     }
-
 }

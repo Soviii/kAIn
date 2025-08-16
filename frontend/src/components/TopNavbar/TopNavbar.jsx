@@ -1,18 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import kainLogo from "../../assets/kAIn-logo-v2.jpeg";
 import "./TopNavbar.css";
+import { useAuth } from '../../context/AuthContext';
 
 
 // TODO: update img with sprite of luffy or continue using current logo
 // may need to color match background of jpg/png with color for navbar...
 const TopNavbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { setUserId } = useAuth();
 
   // signs the user out 
-    // TODO: handle JWT as well... maybe remove ???
-  const handleSignOut = () => {
-    setIsLoggedIn(!isLoggedIn);
+  // TODO: handle JWT as well... maybe remove ???
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/users/logout", {
+        method: "DELETE",
+        credentials: "include"
+      });
+
+      if (response.ok) {
+        console.log("successfully signed out");
+        setUserId(-1);
+        window.location.reload();
+      }
+    } catch (err) {
+      alert("There was an error when trying to sign out");
+    }
   }
 
   // checks if current JWT is still valid

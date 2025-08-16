@@ -6,7 +6,6 @@ import './NewRecipe.css';
 //  TODO add in the "tag" field to the recipe form, should come after Title
 
 const NewRecipe = ({ onClose }) => {  
-  const userId = 1; // TODO: replace with actual user ID from context or props
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [success, setSuccess] = useState(false);
@@ -80,7 +79,8 @@ const NewRecipe = ({ onClose }) => {
       const response = await fetch('http://localhost:8080/recipes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, ingredients, steps, userId }),
+        body: JSON.stringify({ title, description, ingredients, steps }),
+        credentials: "include"
       });
       if (response.ok) {
         const data = await response.json();

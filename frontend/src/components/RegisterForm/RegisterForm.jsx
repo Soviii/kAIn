@@ -1,7 +1,9 @@
 import styles from "../RegisterForm/RegisterForm.module.css";
 import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 
 function FullScreenModal({ onClose }) {
+  const { setUserId } = useAuth();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -32,12 +34,15 @@ function FullScreenModal({ onClose }) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
+        credentials: "include"
       });
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
+      const data = response.json();
+      setUserId(data["userId"]);
      
       
     } catch (error) {
@@ -111,7 +116,7 @@ function FullScreenModal({ onClose }) {
   );
 }
 
-export default function RegisterForm() {
+export default function App() {
   const [showModal, setShowModal] = useState(false);
 
   return (
