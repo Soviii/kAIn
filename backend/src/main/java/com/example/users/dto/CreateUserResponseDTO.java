@@ -7,16 +7,18 @@ public class CreateUserResponseDTO {
     private String email;
     private String password;
     private Long id;
+    private String token;
 
     // necessary for certain JPA functionalities
     public CreateUserResponseDTO(){}
 
-    public CreateUserResponseDTO (String firstName, String lastName, String email, String password, Long id){
+    public CreateUserResponseDTO (String firstName, String lastName, String email, String password, Long id, String token){
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.id = id;
+        this.token = token;
     }
 
     public String getFirstName() {
@@ -57,5 +59,13 @@ public class CreateUserResponseDTO {
 
     public Long getId() {
         return this.id;
+    }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

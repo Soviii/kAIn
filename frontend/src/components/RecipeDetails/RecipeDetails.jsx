@@ -18,6 +18,7 @@ const RecipeDetails = ({ recipe }) => {
           'userId': 1, // TODO: update userId to be retrieved from JWT or server side session
           'recipeId': recipe.recipeId
         },
+        credentials: "include"
       });
       if (response.ok) {
         return 0; // meaning deleted successfully; tells DeleteRecipeModal to show confirm message

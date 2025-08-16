@@ -3,7 +3,7 @@ package com.example.openai.controller;
 
 import com.example.openai.dto.OpenAIRequest;
 import com.example.openai.dto.OpenAIResponse;
-
+import com.example.config.JwtConfig;
 import com.example.openai.dto.ConversationListRequest;
 import com.example.openai.dto.ConversationListResponse;
 
@@ -11,6 +11,7 @@ import com.example.openai.service.OpenAIService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @RestController
@@ -18,9 +19,11 @@ import jakarta.validation.Valid;
 public class OpenAIController {
 
     private final OpenAIService openAIService;
+    private final JwtConfig jwtConfig;
 
-    public OpenAIController(OpenAIService openAIService) {
+    public OpenAIController(OpenAIService openAIService, JwtConfig jwtConfig) {
         this.openAIService = openAIService;
+        this.jwtConfig = jwtConfig;
     }
 
 
@@ -42,7 +45,9 @@ public class OpenAIController {
      * @throws ConstraintViolationException if recipeId is null
      */
     @GetMapping("/getchat")
-    public ConversationListResponse recipeConversation(@Valid ConversationListRequest req) {
+    public ConversationListResponse recipeConversation(@CookieValue(value = "kAIn-jwt", required = false) String token, @Valid ConversationListRequest req, HttpServletResponse response) {
+        jwtConfig.checkAndRefreshTokenIfNeeded(token, response);
+
         Integer recipeId = req.getRecipeId();
         return this.openAIService.getRecipeConversation(recipeId);
     }
@@ -59,7 +64,9 @@ public class OpenAIController {
      * @throws jakarta.validation.ConstraintViolationException if recipeId is null or userMessage is blank
      */
     @PostMapping("/userchat")
-    public OpenAIResponse chatWithRecipeAssistant(@Valid @RequestBody OpenAIRequest req) {
+    public OpenAIResponse chatWithRecipeAssistant(@CookieValue(value = "kAIn-jwt", required = false) String token, @Valid @RequestBody OpenAIRequest req, HttpServletResponse response) {
+        jwtConfig.checkAndRefreshTokenIfNeeded(token, response);
+
         Integer recipeId = req.getRecipeId();
         String userMessage = req.getUserMessage();
         return this.openAIService.sendUserMessage(recipeId, userMessage);

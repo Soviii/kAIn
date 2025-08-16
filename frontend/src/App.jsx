@@ -10,6 +10,8 @@ import AccountSettings from './pages/AccountSettings/AccountSettings.jsx';
 import ResetPassword from './pages/ResetPassword/ResetPassword.jsx';
 import TopNavbar from './components/TopNavbar/TopNavbar.jsx';
 import Privacy from './pages/Privacy/Privacy.jsx';
+import PrivateRoute from './components/PrivateRoute/PrivateRouter.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 function App() {
   const router = createBrowserRouter([
@@ -34,37 +36,28 @@ function App() {
     {
       path: "/main",
       element: (
-        <>
+        <PrivateRoute>
           <TopNavbar />
           <Main />
-        </>
-      )
-    },
-    {
-      path: "/not-found",
-      element: (
-        <>
-          <TopNavbar />
-          <NotFound />
-        </>
+        </PrivateRoute>
       )
     },
     {
       path: "/account",
       element: (
-        <>
+        <PrivateRoute>
           <TopNavbar />
           <AccountSettings />
-        </>
+        </PrivateRoute>
       )
     },
     {
       path: "/privacy",
       element: (
-        <>
+        <PrivateRoute>
           <TopNavbar />
           <Privacy />
-        </>
+        </PrivateRoute>
       )
     },
     {
@@ -94,13 +87,15 @@ function App() {
         </>
       )
     }
-  ])
+  ]);
 
   return (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
     </React.StrictMode>
-  )
+  );
 }
 
 export default App;

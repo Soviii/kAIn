@@ -17,6 +17,7 @@ const ChatPane = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include"
       });
 
       if (!response.ok) {
@@ -50,7 +51,8 @@ const ChatPane = () => {
         body: JSON.stringify({
           recipeId: 1,
           message: input.trim()
-        })
+        }),
+        credentials: "include"
       });
 
       if (!response.ok) {

@@ -20,14 +20,13 @@ const Main = () => {
 
   // custom hook that gets all recipes associated with user and sets the recipes useState
   const fetchRecipeSummaries = async () => {
-    // TODO DONT USE HARD CODED USER ID VALUE
     try {
       const response = await fetch('http://localhost:8080/recipes', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'userId': '1'
         },
+        credentials: 'include'
       });
       if (response.ok) {
         const data = await response.json();
@@ -61,6 +60,7 @@ const Main = () => {
           'userId': '1',
           'recipeId': recipeId,
         },
+        credentials: "include"
       });
 
       if (response.ok) {
@@ -92,7 +92,8 @@ const Main = () => {
           'Content-Type': 'application/json',
           'userId': 1, // TODO: update userId to be retrieved from JWT or server side session
         },
-        body: JSON.stringify({...updatedRecipeInfo, "recipeId": focusedRecipeId})
+        body: JSON.stringify({...updatedRecipeInfo, "recipeId": focusedRecipeId}),
+        credentials: "include"
       });
       if (response.ok) {
         setFocusedRecipe(updatedRecipeInfo);

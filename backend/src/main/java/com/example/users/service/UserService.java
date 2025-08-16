@@ -6,11 +6,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.config.JwtConfig;
 import com.example.users.dto.CreateUserRequestDTO;
 import com.example.users.dto.CreateUserResponseDTO;
-import com.example.users.dto.LoginUserRequestDTO;
 import com.example.users.dto.LoginUserResponseDTO;
 import com.example.users.repository.UserRepository;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,13 +24,15 @@ import org.springframework.web.server.ResponseStatusException;
 public class UserService {
 
     private final UserRepository userRepository;
-    
-    public UserService (UserRepository userRepository){
+    private final JwtConfig jwtConfig;
+
+    public UserService (UserRepository userRepository, JwtConfig jwtConfig){
         this.userRepository = userRepository;
+        this.jwtConfig = jwtConfig;
     }
 
     @Transactional
-    public CreateUserResponseDTO createUser(CreateUserRequestDTO user){
+    public CreateUserResponseDTO createUser(CreateUserRequestDTO user, HttpServletResponse response){
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
         String email = user.getEmail();
@@ -44,7 +48,11 @@ public class UserService {
         userRepository.save(newUser);
         Long id = newUser.getId(); // must save user first before getting the id; JPA convention
 
-        CreateUserResponseDTO newUserResponse = new CreateUserResponseDTO(firstName, lastName, email, password, id);
+        // prepare jwt with httpOnly
+        String token = createToken(Long.toString(newUser.getId()));
+        jwtConfig.addCookie(token, response);
+
+        CreateUserResponseDTO newUserResponse = new CreateUserResponseDTO(firstName, lastName, email, password, id, token);
 
         return newUserResponse;
     }
@@ -65,7 +73,7 @@ public class UserService {
      * TODO: implement JWT if server side sessions isn't manageable within timeframe
      */
     @Transactional(readOnly = true)
-    public LoginUserResponseDTO validateUserCredentials(String email, String password) {
+    public LoginUserResponseDTO validateUserCredentials(String email, String password, HttpServletResponse response) {
         Optional<User> maybeUser = userRepository.findByEmailAndPassword(email, password);
         User existingUser;
 
@@ -75,10 +83,15 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong credentials");
         }
 
-        Long userId = existingUser.getId();
-        String token = "some token bla bla bla";
-        LoginUserResponseDTO userIdAndJWT = new LoginUserResponseDTO(userId, token);
+        // prepare jwt with httpOnly
+        String token = createToken(Long.toString(existingUser.getId()));
+        jwtConfig.addCookie(token, response);
+        LoginUserResponseDTO userIdAndJWT = new LoginUserResponseDTO(existingUser.getId(), token);
 
         return userIdAndJWT;
+    }
+
+    private String createToken(String userId) {
+        return jwtConfig.generateToken(userId);
     }
 }
