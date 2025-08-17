@@ -78,6 +78,8 @@ const RecipeDetailsEditForm = ({ recipe, onCancel }) => {
       steps: formData.steps.filter(inst => inst.instruction.trim())
     };
 
+    if (cleanedData.hasOwnProperty("tags") && delete cleanedData["tags"]); // TODO: implement tags capability in db and backend
+
     setUpdateStatus("pending");
     const status = await handleUpdateRecipe(cleanedData);
 

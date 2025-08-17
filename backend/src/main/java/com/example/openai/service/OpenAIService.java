@@ -16,6 +16,8 @@ import com.example.recipes.dto.RecipeDetailsDTO;
 import com.example.recipes.model.Recipe;
 import com.example.recipes.repository.RecipeRepository;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,12 +25,15 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.Duration;
 import java.util.HashMap;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import org.springframework.cache.CacheManager;
 
 @Service
 public class OpenAIService {
@@ -37,12 +42,19 @@ public class OpenAIService {
     private final OpenAIMessageRepository openAIRepository;
     private final SummaryRepository summaryRepository;
     private final RecipeRepository recipeRepository;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public OpenAIService(OpenAIClient openAiClient, OpenAIMessageRepository openAIRepository, SummaryRepository summaryRepository, RecipeRepository recipeRepository) {
+    public OpenAIService(OpenAIClient openAiClient,
+            OpenAIMessageRepository openAIRepository,
+            SummaryRepository summaryRepository,
+            RecipeRepository recipeRepository,
+            CacheManager cacheManager,
+            RedisTemplate<String, Object> redisTemplate) {
         this.openAiClient = openAiClient;
         this.openAIRepository = openAIRepository;
         this.summaryRepository = summaryRepository;
         this.recipeRepository = recipeRepository;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -78,7 +90,6 @@ public class OpenAIService {
      */
     private boolean isRelevantFoodMessage(String recipeContextJson) {
         try {
-
             // Send to AI as a system message
             ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
                 // TODO: update given payload to not include IDs and remove ID sentence in system message
@@ -132,7 +143,8 @@ public class OpenAIService {
      * 4. Send prompt to OpenAI (ChatGPT) with detailed instructions about tone and behavior.
      * 5. Get AI response and persist both user and AI messages into the database.
      * 6. Update the recipe's message count and trigger summary creation if needed.
-     * 7. Return the AI’s response wrapped in an {@link OpenAIResponse}.
+     * 7. Store message in cache
+     * 8. Return the AI’s response wrapped in an {@link OpenAIResponse}.
      *
      * @param recipeId    the ID of the recipe the conversation belongs to
      * @param userMessage the message text provided by the user
@@ -148,14 +160,15 @@ public class OpenAIService {
         Recipe currRecipe = rOpt.get();
         RecipeDetailsDTO currRecipeDetails = new RecipeDetailsDTO(currRecipe);
         List<ChatMessageDTO> last6Messages = openAIRepository.findLastMessages(recipeId, 6)
-                                                .stream()
-                                                .map(m -> new ChatMessageDTO(m))
-                                                .toList();
+            .stream()
+            .map(m -> new ChatMessageDTO(m))
+            .toList();
 
         List<ChatSummaryDTO> last5Summaries = summaryRepository.findLastSummaries(recipeId, 1) // TODO: decide whether to do multiple summaries or only save 1... might not need much information 
-                                                .stream()
-                                                .map(s -> new ChatSummaryDTO(s))
-                                                .toList();
+            .stream()
+            .map(s -> new ChatSummaryDTO(s))
+            .toList();
+
         String recipeContextJson;
         // tries to store recipe details, last 6 messages, last summaries, and current message into a json and prompt GPT to answer 'true' or 'false'
         try {
@@ -252,7 +265,19 @@ public class OpenAIService {
         // add two messages to count list
         currRecipe.increaseMessageCount(2L);
         recipeRepository.save(currRecipe);
+
+        // save new messages in cache
+        // cacheNewMessages(userMessageForDb, aiMessageForDb, recipeId);
+        String cacheKey = "conversationByRecipeId::" + recipeId;
+        ConversationListResponse cachedConvo = (ConversationListResponse) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedConvo != null) {
+            cachedConvo.addMessage(userMessageForDb);
+            cachedConvo.addMessage(aiMessageForDb);
+            redisTemplate.opsForValue().set(cacheKey, cachedConvo, Duration.ofMinutes(5));
+        }
+
         createNewSummaryIfNecessary(currRecipe);
+
         return new OpenAIResponse(aiResponse, 200);
     }
 
@@ -306,18 +331,18 @@ public class OpenAIService {
 
         // Send to AI as a system message
         ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
-                // TODO: update given payload to not include IDs and remove ID sentence in
-                // system message
-                .addSystemMessage("""
-                    You are an AI assistant specialized in summarization.
-                    Your task is to read up to 10 messages from a conversation and create a coherent summary that consolidates the key points, context, and relevant details.
-                    Present the summary in one or more paragraphs as needed for clarity.
-                    Focus on the main ideas and important context; omit minor details, filler, and repetition.
-                    Ensure that the resulting summary is easy to read and provides enough information for someone to understand the conversation without reviewing the original messages.
-                """)
-                .addUserMessage(recipeContextJson)
-                .model(ChatModel.GPT_3_5_TURBO)
-                .build();
+            // TODO: update given payload to not include IDs and remove ID sentence in
+            // system message
+            .addSystemMessage("""
+                You are an AI assistant specialized in summarization.
+                Your task is to read up to 10 messages from a conversation and create a coherent summary that consolidates the key points, context, and relevant details.
+                Present the summary in one or more paragraphs as needed for clarity.
+                Focus on the main ideas and important context; omit minor details, filler, and repetition.
+                Ensure that the resulting summary is easy to read and provides enough information for someone to understand the conversation without reviewing the original messages.
+            """)
+            .addUserMessage(recipeContextJson)
+            .model(ChatModel.GPT_3_5_TURBO)
+            .build();
         ChatCompletion completion = openAiClient.chat().completions().create(params);
 
         // returns list of List<ChatChoice> (usually will be one choice), converts List
@@ -326,10 +351,11 @@ public class OpenAIService {
         // choice.message().content() returns Optional<String> (text from AI)
         // flatMap unwraps nested optional safely (in case choice or content is missing)
         // if no message present, then ""
-        String response = completion.choices().stream()
-                .findFirst()
-                .flatMap(choice -> choice.message().content())
-                .orElse("");
+        String response = completion.choices()
+            .stream()
+            .findFirst()
+            .flatMap(choice -> choice.message().content())
+            .orElse("");
         
         List<ChatSummary> summaries = summaryRepository.findLastSummaries(recipe.getRecipeId(), 1);
         ChatSummary newSummary;
@@ -354,11 +380,21 @@ public class OpenAIService {
      *           * messageText: The content of the message
      * @throws ResponseStatusException with HTTP 404 if no messages found for the recipe
      */
+    // instead of manually checking cache in code, can use annotation below
+    // @Cacheable(
+    //     cacheNames = "conversationByRecipeId",
+    //     key = "#recipeId"
+    // )
     @Transactional(readOnly = true)
     public ConversationListResponse getRecipeConversation(Long recipeId) {
-        // 1) Get all messages from database w/ specific recipeId
-        //      - check if not empty
-        // 2) make ConversationListResponse and add all messages
+        String cacheKey = "conversationByRecipeId::" + recipeId;
+        ConversationListResponse cachedConvo = (ConversationListResponse) redisTemplate.opsForValue().get(cacheKey);
+        if (cachedConvo != null) {
+            System.out.println("in cache");
+            redisTemplate.opsForValue().set(cacheKey, cachedConvo, Duration.ofMinutes(5));
+            return cachedConvo;
+        }
+
         ConversationListResponse convo = new ConversationListResponse();
 
         List<OpenAIMessage> dbMessages = openAIRepository.findByRecipeIdOrderByTimestampAsc(recipeId);
@@ -368,7 +404,7 @@ public class OpenAIService {
         }
 
         dbMessages.forEach(convo::addMessage); // for each OpenAIMessage in dbMessages, run convo.addMessage();
-
+        redisTemplate.opsForValue().set(cacheKey, convo, Duration.ofMinutes(5));
         return convo;
     }
 }
@@ -422,5 +458,3 @@ public class OpenAIService {
 //                 .orElse("⚠️  Empty response from OpenAI");
 //     }
 // }
-
-
