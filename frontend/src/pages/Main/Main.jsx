@@ -125,7 +125,7 @@ const Main = () => {
 
   return (
     <RecipeContext.Provider value={{ handleRecipeCardClicked, handleNewRecipeSuccess, fetchRecipeSummaries, handleTabSelectionClicked, handleUpdateRecipe, setFocusedRecipe, setFocusedRecipeId }}>
-      <div className="container-fluid">
+      <div className="main-page-div">
         <TabSelection handleTabSelectionClicked={handleTabSelectionClicked} focusedTab={currTab} />
         {/* changes view based on TabSelection */}
         {currTab === 0 ? (

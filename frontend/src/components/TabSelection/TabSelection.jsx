@@ -17,7 +17,7 @@ const TabSelection = ({ handleTabSelectionClicked, focusedTab }) => {
             Recipes
           </Nav.Link>
           <Nav.Link className={focusedTab === 1 ? 'curr-tab' : 'off-tab'} onClick={() => onClick(1)}>
-            Recipe Details
+            Details
           </Nav.Link>
         </Nav>
       </Container>
