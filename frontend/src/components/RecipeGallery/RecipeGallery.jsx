@@ -26,7 +26,7 @@ const RecipeGallery = ({ isLoading, focusedRecipeId, recipeList }) => {
                   <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
                 </div>
                 <div className="modal-body">
-                  <NewRecipe onClose={() => console.log(`suppose to reload`)} />
+                  <NewRecipe onClose={() => setShowModal(false)} />
                 </div>
               </div>
             </div>
@@ -53,6 +53,60 @@ const RecipeGallery = ({ isLoading, focusedRecipeId, recipeList }) => {
               isFocused={focusedRecipeId === recipe["recipeId"] ? true : false}
             />
           ))}
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
+          <RecipeCard 
+          details={{
+            "idx": 999,
+            "title": "My fake recipe",
+            "description": "My fake description",
+            "tags": ["some", "different", "tags", "etc."]
+          }}
+          isFocused={false}
+          />
         </div>
       )}
     </div>

@@ -91,7 +91,7 @@ const ChatPane = ({ recipeId }) => {
 
   return (
     <div className="chat-pane-div">
-      <h2>AI Chat</h2>
+      <h2>kAIn Assistant</h2>
       <div className="chat-msgs-div">
         {renderMessages()}
         <div ref={messagesEndRef} />
