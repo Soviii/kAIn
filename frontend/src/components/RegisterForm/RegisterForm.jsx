@@ -10,6 +10,7 @@ function FullScreenModal({ onClose }) {
     email: "",
     password: "",
   });
+  const [status, setStatus] = useState("");
 
   //check if fields are filled
   const isFormComplete =
@@ -25,8 +26,8 @@ function FullScreenModal({ onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent default form submission
-    onClose(); // Close the modal
-
+    // onClose(); // Close the modal
+    setStatus("Registering...");
     try {
       const response = await fetch("http://localhost:8080/users/register", {
         method: "POST",
@@ -36,17 +37,21 @@ function FullScreenModal({ onClose }) {
         body: JSON.stringify(formData),
         credentials: "include"
       });
-
+      
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
       const data = response.json();
       setUserId(data["userId"]);
-     
+      setStatus("Successfully registered!");
       
     } catch (error) {
       console.error("Error saving user:", error);
+      setStatus("There was an error registering");
+    } finally {
+      await new Promise(resolve => setTimeout(resolve, 1250));
+      setStatus("");
     }
 
     onClose(); // close modal after submission
@@ -102,15 +107,21 @@ function FullScreenModal({ onClose }) {
             />
           </div>
           <div>
-            {/*disabled if form is incomplete */}
-            <button type="submit" disabled={!isFormComplete}>
-              Submit
-            </button>
-            <button type="button" onClick={onClose}>
-              Cancel
-            </button>
+            {status === "" && (
+              <>
+                {/*disabled if form is incomplete */}
+                <button type="submit" disabled={!isFormComplete}>
+                  Submit
+                </button>
+                <button type="button" onClick={onClose}>
+                  Cancel
+                </button>
+              </>
+            )
+            }
           </div>
         </form>
+        <p>{status}</p>
       </div>
     </div>
   );
