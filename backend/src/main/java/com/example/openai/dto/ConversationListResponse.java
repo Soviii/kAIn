@@ -6,8 +6,10 @@ import com.example.openai.model.ChatMessageDTO;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.Serializable;
 
-public class ConversationListResponse {
+public class ConversationListResponse implements Serializable {
+    private static final Long serialVersionUID = 1L; // used for caching
     private List<ChatMessageDTO> messages;
 
     public ConversationListResponse() {

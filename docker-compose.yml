@@ -26,12 +26,15 @@ services:
     # command: tail -f /dev/null
     depends_on:
       - db
+      - redis
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydb
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypassword
       OPENAI_API_KEY: ${OPENAI_API_KEY}
       JWT_SECRET: ${JWT_SECRET}
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
 
   db:
     container_name: db
@@ -47,6 +50,31 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./db/scripts:/app/scripts
 
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    # Disable persistence for pure caching; turn AOF on if you want durability.
+    command: ["redis-server", "--save", "", "--appendonly", "no"]
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379 # tell the UI where Redis lives (service name + port)
+    depends_on:
+      - redis
+    ports:
+      - "8081:8081" # open http://localhost:8081 to view keys
+
 volumes:
   pgdata:
-
+  redisdata:
