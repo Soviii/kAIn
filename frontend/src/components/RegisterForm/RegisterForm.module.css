@@ -1,29 +1,111 @@
-:root {
-  --primary: #65647C;
-  --secondary: #8B7E74;
-  --tertiary: #C7BCA1;
-  --quaternary: #F1D3B3;
-}
-
 .register-container-div {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(30, 30, 30, 0.7); /* softer dark overlay */
   display: flex;
   justify-content: center;
   align-items: center;
+  backdrop-filter: blur(8px); /* frosted glass effect */
   z-index: 9999;
 }
 
 .register-form-div {
-  color: #F1D3B3;
-  background-color: #8B7E74;
-  padding: 50px 60px;
-  border-radius: 25px;
-  min-width: 400px;
+  background: linear-gradient(145deg, #fffdfc, #f7f5f3); /* subtle white/gray gradient */
+  color: #333;
+  padding: 40px 50px;
+  border-radius: 20px;
+  min-width: 380px;
   max-width: 90vw;
-  text-align: right;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 136, 76, 0.25); /* orange glow border */
+  text-align: left;
+  animation: fadeInUp 0.4s ease;
+}
+
+.register-form-div h3 {
+  color: #ff6600; /* bold orange headline */
+  margin-bottom: 25px;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.register-form-div label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 600;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.register-form-div input {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-bottom: 18px;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-form-div input:focus {
+  border-color: #ff6600;
+  box-shadow: 0 0 6px rgba(255, 102, 0, 0.4);
+  outline: none;
+}
+
+/* Buttons */
+.register-form-div button {
+  padding: 10px 22px;
+  margin: 8px;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.register-form-div button[type="submit"] {
+  background: linear-gradient(135deg, #ff884c, #ff6600);
+  color: white;
+  box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+}
+
+.register-form-div button[type="submit"]:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff6600, #e05600);
+  transform: translateY(-2px);
+}
+
+.register-form-div button[type="submit"]:disabled {
+  background: #ddd;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.register-form-div button[type="button"] {
+  background: #f4f4f4;
+  color: #555;
+}
+
+.register-form-div button[type="button"]:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+.register-form-div p {
+  text-align: center;
+}
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
 }
