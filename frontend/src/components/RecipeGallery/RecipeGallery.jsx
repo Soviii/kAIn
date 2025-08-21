@@ -53,60 +53,6 @@ const RecipeGallery = ({ isLoading, focusedRecipeId, recipeList }) => {
               isFocused={focusedRecipeId === recipe["recipeId"] ? true : false}
             />
           ))}
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
-          <RecipeCard 
-          details={{
-            "idx": 999,
-            "title": "My fake recipe",
-            "description": "My fake description",
-            "tags": ["some", "different", "tags", "etc."]
-          }}
-          isFocused={false}
-          />
         </div>
       )}
     </div>

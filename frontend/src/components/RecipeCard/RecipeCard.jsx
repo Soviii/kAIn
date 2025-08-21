@@ -19,7 +19,7 @@ const RecipeCard = ({ details, isFocused }) => {
         </div>
         <div className="tag-list-div">
           {(details["tags"] || []).map((tag, idx) => (
-            <span key={idx} className="tag-span">{tag}</span>
+            <span key={idx} className="tag-span">{tag.name}</span>
           ))}
         </div>
       </div>

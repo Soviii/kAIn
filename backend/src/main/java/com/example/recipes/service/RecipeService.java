@@ -160,6 +160,14 @@ public class RecipeService {
                     dto.setRecipeId(r.getRecipeId());
                     dto.setTitle(r.getTitle());
                     dto.setDescription(r.getDescription());
+                    
+                    List<TagResponseDTO> tagDTOs = recipeTagRepository
+                            .findAllByRecipeId(r.getRecipeId()) // returns List<RecipeTag>
+                            .stream()
+                            .map(rt -> new TagResponseDTO(rt.getTag())) // gets RecipeTag's Tag which uses Tag.getName()
+                            .collect(Collectors.toList()); // similar to toList()... look it up
+
+                    dto.setTags(tagDTOs);
                     return dto;
                 })
                 .collect(Collectors.toList());

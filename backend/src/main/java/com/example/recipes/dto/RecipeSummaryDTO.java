@@ -1,11 +1,16 @@
 package com.example.recipes.dto;
 
+import java.util.List;
+
+import com.example.tags.dto.TagResponseDTO;
+
 public class RecipeSummaryDTO {
     // Declare fields
     private Long recipeId;
     private String title;
     private String description;
-    
+    private List<TagResponseDTO> tags;
+
     // Default constructor 
     public RecipeSummaryDTO() {
         // Default constructor required for some frameworks
@@ -35,5 +40,13 @@ public class RecipeSummaryDTO {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<TagResponseDTO> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<TagResponseDTO> tags) {
+        this.tags = tags;
     }
 }
