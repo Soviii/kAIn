@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.ingredients.dto.IngredientRequestDTO;
 import com.example.steps.dto.StepRequestDTO;
+import com.example.tags.dto.TagRequestDTO;
 
 public class RecipeRequestDTO {
     // Declare fields
@@ -11,18 +12,19 @@ public class RecipeRequestDTO {
     private String description;
     private List<IngredientRequestDTO> ingredients;
     private List<StepRequestDTO> steps;
-
+    private List<TagRequestDTO> tags;
     // Default constructor
     public RecipeRequestDTO() {
         // Default constructor required for some frameworks
     }
 
     // Parameterized constructor
-    public RecipeRequestDTO(String title, String description, List<IngredientRequestDTO> ingredients, List<StepRequestDTO> steps) {
+    public RecipeRequestDTO(String title, String description, List<IngredientRequestDTO> ingredients, List<StepRequestDTO> steps, List<TagRequestDTO> tags) {
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.tags = tags;
     }
 
     // Getters and setters
@@ -57,5 +59,13 @@ public class RecipeRequestDTO {
 
     public void setSteps(List<StepRequestDTO> steps) {
         this.steps = steps;
+    }
+
+    public List<TagRequestDTO> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<TagRequestDTO> tags) {
+        this.tags = tags;
     }
 }

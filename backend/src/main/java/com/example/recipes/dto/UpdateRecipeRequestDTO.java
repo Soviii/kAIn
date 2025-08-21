@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
+import com.example.tags.dto.TagRequestDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,14 +27,17 @@ public class UpdateRecipeRequestDTO {
     @NotNull
     private List<StepResponseDTO> steps;
 
+    private List<TagRequestDTO> tags;
+
     public UpdateRecipeRequestDTO() {} // JPA requirement 
 
-    public UpdateRecipeRequestDTO(Long recipeId, String title, String description, List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
+    public UpdateRecipeRequestDTO(Long recipeId, String title, String description, List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps, List<TagRequestDTO> tags) {
         this.recipeId = recipeId;
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.tags = tags;
     }
 
     public Long getRecipeId() {
@@ -76,4 +80,11 @@ public class UpdateRecipeRequestDTO {
         this.steps = steps;
     }
 
+    public List<TagRequestDTO> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<TagRequestDTO> tags) {
+        this.tags = tags;
+    }
 }

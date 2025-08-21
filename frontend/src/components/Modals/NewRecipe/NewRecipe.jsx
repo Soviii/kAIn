@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { RecipeContext } from '../../../pages/Main/Main';
 import './NewRecipe.css';
@@ -13,11 +13,42 @@ const NewRecipe = ({ onClose }) => {
   const [ingredients, setIngredients] = useState([
     { name: '', quantity: '', unit: '' }
   ]);
-  const [steps, setSteps] = useState([
+  const [steps, setSteps] = useState  ([
     {instruction: '', stepNumber: 1}
   ]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [tagOptions, setTagOptions] = useState([""]);
   const { handleNewRecipeSuccess } = useContext(RecipeContext);
 
+  const fetchDefaultTags = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/tags", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        console.log("no bueno with tags compa");
+      }
+
+      const data = await response.json();
+      setTagOptions(data["tags"].map(tag => tag.name));
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  // fetches allowed tags to be saved
+  useEffect(() => {
+    fetchDefaultTags();
+  }, []);
+
+  useEffect(() => {
+    console.log(selectedTags);
+  }, [selectedTags])
 
   // Function to handle changes in ingredient fields
   const handleIngredientChange = (idx, field, value) => {
@@ -79,7 +110,7 @@ const NewRecipe = ({ onClose }) => {
       const response = await fetch('http://localhost:8080/recipes', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, description, ingredients, steps }),
+        body: JSON.stringify({ title, description, ingredients, steps, tags: selectedTags}),
         credentials: "include"
       });
       if (response.ok) {
@@ -183,6 +214,27 @@ const NewRecipe = ({ onClose }) => {
           </div>
         ))}
       </Form.Group>
+       <Form.Group className="form-section">
+         <Form.Label>Tags</Form.Label>
+         <div className="tags-container">
+           {tagOptions.map((tag, idx) => (
+             <button
+               key={idx}
+               type="button"
+               className={`tag-button ${selectedTags.includes(tag) ? "selected" : ""}`}
+               onClick={() => {
+                 if (selectedTags.includes(tag)) {
+                   setSelectedTags(selectedTags.filter(t => t !== tag));
+                 } else {
+                   setSelectedTags([...selectedTags, tag]);
+                 }
+               }}
+             >
+               {tag}
+             </button>
+           ))}
+         </div>
+       </Form.Group>
       <Form.Group className="form-section">
         <Form.Label>Steps</Form.Label>
         {steps.map((stepObj, idx) => (

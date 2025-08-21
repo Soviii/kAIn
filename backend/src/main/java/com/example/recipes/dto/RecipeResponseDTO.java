@@ -3,6 +3,7 @@ package com.example.recipes.dto;
 import java.util.List;
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
+import com.example.tags.dto.TagResponseDTO;
 
 public class RecipeResponseDTO {
     // Declare fields
@@ -12,6 +13,7 @@ public class RecipeResponseDTO {
     private String description;
     private List<IngredientResponseDTO> ingredients;
     private List<StepResponseDTO> steps;
+    private List<TagResponseDTO> tags;
 
     // Default constructor
     public RecipeResponseDTO() {
@@ -20,13 +22,15 @@ public class RecipeResponseDTO {
 
     // Parameterized constructor
     public RecipeResponseDTO(Long recipeId, Long userId, String title, String description,
-                             List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
+                             List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps,
+                             List<TagResponseDTO> tags) {
         this.recipeId = recipeId;
         this.userId = userId;
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.tags = tags;
     }
 
     // Getters and setters
@@ -77,5 +81,13 @@ public class RecipeResponseDTO {
 
     public void setSteps(List<StepResponseDTO> steps) {
         this.steps = steps;
+    }
+
+    public List<TagResponseDTO> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<TagResponseDTO> tags) {
+        this.tags = tags;
     }
 }

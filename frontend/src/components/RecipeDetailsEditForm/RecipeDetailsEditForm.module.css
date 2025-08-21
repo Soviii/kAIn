@@ -190,3 +190,29 @@
 .saveBtn:hover {
   background-color: rgb(109, 178, 67);
 }
+
+.tagsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tagButton {
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc; /* gray outline */
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.tagButton:hover {
+  background-color: #f9f9f9;
+}
+
+.selected {
+  background-color: #ffb347; /* pastel orange */
+  border-color: #ffb347;
+  color: white;
+}

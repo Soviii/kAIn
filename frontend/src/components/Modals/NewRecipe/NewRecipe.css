@@ -130,3 +130,24 @@
   gap: 1rem;
   margin-top: 2rem;
 }
+
+.tag-button {
+  margin: 4px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  border: 1px solid #ccc; /* gray outline */
+  background-color: #fff; /* white background */
+  color: #333;
+  transition: all 0.2s ease-in-out;
+  font-size: 0.80rem;
+}
+
+.tag-button:hover {
+  background-color: #f9f9f9;
+}
+
+.tag-button.selected {
+  background-color: #ffb347; /* pastel orange */
+  border-color: #ffb347;
+  color: white;
+}
