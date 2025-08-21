@@ -8,13 +8,13 @@ A full-stack web application built using **Spring Boot** (Java) for the backend 
 
 ##  Table of Contents
 
-1. [About the Project] 
-2. [User Features]
-3. [Technical Features]
-4. [Tech Stack]
-5. [Architecture] 
-6. [Setup and Installation] 
-7. [Future Work]
+1. About the Project]
+2. User Features
+3. Technical Features
+4. Tech Stack
+5. Architecture
+6. Setup and Installation
+7. Future Work
 
 ---
 
@@ -52,6 +52,7 @@ From a technical perspective, this project is an end-to-end application that uti
 - **Frontend**: React (JavaScript)
 - **Database**: PostgreSQL, Redis 
 - **Containerization**: Docker
+- **Services**: OpenAI 3.5GPT Turbo, JWT w/ HttpOnly
 
 ---
 
@@ -74,5 +75,6 @@ From a technical perspective, this project is an end-to-end application that uti
 - **Search & Filter** – Find recipes by name, cuisine, or dietary tag  
 - **Favorites** – Save and quickly access your go-to dishes  
 - **Share Recipe** – Email feature to share recipes between friends 
+
 
 
