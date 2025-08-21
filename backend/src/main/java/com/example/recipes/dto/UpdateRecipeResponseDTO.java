@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.ingredients.dto.IngredientResponseDTO;
 import com.example.steps.dto.StepResponseDTO;
+import com.example.tags.dto.TagResponseDTO;
 
 public class UpdateRecipeResponseDTO {
     private Long recipeId;
@@ -11,13 +12,15 @@ public class UpdateRecipeResponseDTO {
     private String description;
     private List<IngredientResponseDTO> ingredients;
     private List<StepResponseDTO> steps;
+    private List<TagResponseDTO> tags;
 
-    public UpdateRecipeResponseDTO(Long recipeId, String title, String description, List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps) {
+    public UpdateRecipeResponseDTO(Long recipeId, String title, String description, List<IngredientResponseDTO> ingredients, List<StepResponseDTO> steps, List<TagResponseDTO> tags) {
         this.recipeId = recipeId;
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.tags = tags;
     }
 
     public Long getRecipeId() {
@@ -58,5 +61,13 @@ public class UpdateRecipeResponseDTO {
 
     public void setSteps(List<StepResponseDTO> steps) {
         this.steps = steps;
+    }
+
+    public List<TagResponseDTO> getTags() {
+        return this.tags;
+    }
+
+    public void setTags(List<TagResponseDTO> tags) {
+        this.tags = tags;
     }
 }

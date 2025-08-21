@@ -1,7 +1,6 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Save, X, Plus } from 'lucide-react';
 import IngredientInput from '../IngredientEditInput/IngredientEditInput.jsx';
-import TagInput from '../TagEditInput/TagEditInput.jsx';
 import styles from './RecipeDetailsEditForm.module.css';
 import { RecipeContext } from '../../pages/Main/Main.jsx';
 import UpdateRecipeDetailsModal from '../UpdateRecipeDetailsModal/UpdateRecipeDetailsModal.jsx';
@@ -11,11 +10,30 @@ const RecipeDetailsEditForm = ({ recipe, onCancel }) => {
   const [formData, setFormData] = useState({
     title: recipe.title || '',
     description: recipe.description || '',
-    tags: recipe.tags || [],
+    tags: recipe.tags ? recipe.tags.map(t => t.name || t) : [], // Map recipe tags to strings
     ingredients: recipe.ingredients || [{ quantity: '', unit: '', name: '' }],
     steps: recipe.steps || [{ instruction: '', stepNumber: 0 }]
   });
-  const { setFocusedRecipe, fetchRecipeSummaries, handleUpdateRecipe } = useContext(RecipeContext);
+  const [tagOptions, setTagOptions] = useState([]);
+  const { fetchRecipeSummaries, handleUpdateRecipe } = useContext(RecipeContext);
+
+  // Fetch available tag options from backend
+  const fetchTagOptions = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/tags", { credentials: "include" });
+      if (response.ok) {
+        const data = await response.json();
+        setTagOptions(data.tags.map(tag => tag.name));
+      }
+    } catch (err) {
+      console.error("Failed to fetch tags", err);
+    }
+  };
+
+  // fetch tag options available from tags table
+  useEffect(() => {
+    fetchTagOptions();
+  }, []);
 
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -52,10 +70,7 @@ const RecipeDetailsEditForm = ({ recipe, onCancel }) => {
   const addStep = () => {
     setFormData(prev => ({
       ...prev,
-      steps: [
-        ...prev.steps,
-        { instruction: '', stepNumber: prev.steps.length }
-      ]
+      steps: [...prev.steps, { instruction: '', stepNumber: prev.steps.length }]
     }));
   };
 
@@ -68,25 +83,22 @@ const RecipeDetailsEditForm = ({ recipe, onCancel }) => {
     }
   };
 
-  // submitting new recipe info to backend
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Filter out empty ingredients and steps
     const cleanedData = {
       ...formData,
       ingredients: formData.ingredients.filter(ing => ing.name.trim()),
-      steps: formData.steps.filter(inst => inst.instruction.trim())
+      steps: formData.steps.filter(inst => inst.instruction.trim()),
+      tags: formData.tags
     };
-
-    if (cleanedData.hasOwnProperty("tags") && delete cleanedData["tags"]); // TODO: implement tags capability in db and backend
 
     setUpdateStatus("pending");
     const status = await handleUpdateRecipe(cleanedData);
 
     await new Promise(resolve => setTimeout(resolve, 1250));
-    // if saving was successful
+
     if (status === 0) {
-      setFocusedRecipe(cleanedData);
+      // setFocusedRecipe(cleanedData);
       fetchRecipeSummaries();
       setUpdateStatus("success");
       await new Promise(resolve => setTimeout(resolve, 1250));
@@ -139,10 +151,27 @@ const RecipeDetailsEditForm = ({ recipe, onCancel }) => {
             {/* Tags */}
             <div className={styles.card}>
               <label className={styles.label}>Tags</label>
-              <TagInput
-                tags={formData.tags}
-                onUpdate={(tags) => handleInputChange('tags', tags)}
-              />
+              <div className={styles.tagsContainer}>
+                {tagOptions.map((tag, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    className={`${styles.tagButton} ${formData.tags.includes(tag) ? styles.selected : ''}`}
+                    onClick={() => {
+                      if (formData.tags.includes(tag)) {
+                        handleInputChange(
+                          'tags',
+                          formData.tags.filter(t => t !== tag)
+                        );
+                      } else {
+                        handleInputChange('tags', [...formData.tags, tag]);
+                      }
+                    }}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
             </div>
 
             {/* Ingredients */}

@@ -62,7 +62,7 @@ const RecipeDetails = ({ recipe }) => {
       <p className="recipe-description-p">{recipe.description ?? `<RECIPE DESCRIPTION>`}</p>
       <div className="recipe-tag-list-div">
         {(recipe["tags"] || []).map((tag, idx) => (
-          <span key={idx} className="recipe-tag-span">{tag}</span>
+          <span key={idx} className="recipe-tag-span">{tag["name"]}</span>
         ))}
       </div>
       <hr className="horizontal-sep-hr" />

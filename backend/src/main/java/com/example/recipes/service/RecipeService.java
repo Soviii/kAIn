@@ -203,12 +203,19 @@ public class RecipeService {
                     .map(StepResponseDTO::new)
                     .collect(Collectors.toList());
 
+            // Get RecipeTags and convert to DTOs
+            List<TagResponseDTO> tagDTOs = recipeTagRepository.findAllByRecipeId(r.getRecipeId()).stream()
+                .map(rt -> {
+                    return new TagResponseDTO(rt.getTag().getName());
+                }).toList();
+            
             existingRecipe = new RecipeDetailsDTO(
                     r.getRecipeId(),
                     r.getTitle(),
                     r.getDescription(),
                     ingredientDTOs,
-                    stepDTOs);
+                    stepDTOs,
+                    tagDTOs);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Did not find recipe details with recipe id of " + recipeId + " and user ID of " + userId);
@@ -350,6 +357,9 @@ public class RecipeService {
                         .build());
             }
         }
+        List<TagResponseDTO> savedTags = incomingTags.stream()
+            .map(t -> new TagResponseDTO(t.getName()))
+            .toList();
 
         /* ------ Simple metadata --------  */
         recipe.setTitle(newRecipeInfo.getTitle());
@@ -438,6 +448,8 @@ public class RecipeService {
                 newRecipeInfo.getTitle(),
                 newRecipeInfo.getDescription(),
                 savedIngredients,
-                savedSteps);
+                savedSteps,
+                savedTags
+                );
     }
 }

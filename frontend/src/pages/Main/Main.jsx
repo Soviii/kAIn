@@ -96,8 +96,9 @@ const Main = () => {
         credentials: "include"
       });
       if (response.ok) {
-        setFocusedRecipe(updatedRecipeInfo);
-        return 0; // meaning deleted successfully; tells DeleteRecipeModal to show confirm message
+        const data = await response.json();
+        setFocusedRecipe(data);
+        return 0; // meaning updated successfully; tells RecipeEditDetails component to show confirm message
       }
     } catch (error) {
       console.error('Error fetching recipes:', error);
