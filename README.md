@@ -8,14 +8,13 @@ A full-stack web application built using **Spring Boot** (Java) for the backend 
 
 ##  Table of Contents
 
-1. [About the Project](#-about-the-project)  
-2. [User Features](#-features) 
-3. [Technical Features](#-features)  
-4. [Tech Stack](#-tech-stack)  
-5. [Architecture](#-architecture)  
-6. [Setup & Installation](#-setup--installation)  
-7. [Usage](#-usage)  
-8. [Future Work](#-future-work)  
+1. [About the Project] 
+2. [User Features]
+3. [Technical Features]
+4. [Tech Stack]
+5. [Architecture] 
+6. [Setup and Installation] 
+7. [Future Work]
 
 ---
 
@@ -59,6 +58,7 @@ From a technical perspective, this project is an end-to-end application that uti
 ##  Architecture
 ![architecture-diagram](./images/architecture.png)
 ---
+
 ### Setup and Installation
 1) Install Docker (v28.2.2 or later)
 2) Clone repo
@@ -74,4 +74,5 @@ From a technical perspective, this project is an end-to-end application that uti
 - **Search & Filter** – Find recipes by name, cuisine, or dietary tag  
 - **Favorites** – Save and quickly access your go-to dishes  
 - **Share Recipe** – Email feature to share recipes between friends 
+
 
