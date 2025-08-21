@@ -13,11 +13,17 @@ import com.example.ingredients.repository.IngredientRepository;
 import com.example.steps.dto.StepResponseDTO;
 import com.example.steps.model.Step;
 import com.example.steps.repository.StepsRepository;
+import com.example.tags.dto.TagResponseDTO;
+import com.example.tags.model.Tag;
+import com.example.tags.repository.TagsRepository;
 
 import jakarta.transaction.Transactional;
 
 import com.example.recipes.model.Recipe;
 import com.example.recipes.repository.RecipeRepository;
+import com.example.recipetags.model.RecipeTag;
+import com.example.recipetags.model.RecipeTagId;
+import com.example.recipetags.repository.RecipeTagRepository;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -37,17 +43,22 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final IngredientRepository ingredientRepository;
     private final StepsRepository stepsRepository;
+    private final TagsRepository tagsRepository;
+    private final RecipeTagRepository recipeTagRepository;
 
     public RecipeService(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
-            StepsRepository stepsRepository) {
+            StepsRepository stepsRepository, TagsRepository tagsRepository, RecipeTagRepository recipeTagRepository) {
         this.recipeRepository = recipeRepository;
         this.ingredientRepository = ingredientRepository;
         this.stepsRepository = stepsRepository;
+        this.tagsRepository = tagsRepository;
+        this.recipeTagRepository = recipeTagRepository;
     }
 
     /**
      * Create a new Recipe (POST /recipes)
      */
+    @Transactional
     public RecipeResponseDTO createRecipe(RecipeRequestDTO dto, Long userId) {
         // 1) Map DTO → Recipe Entity
         Recipe recipe = new Recipe();
@@ -77,12 +88,36 @@ public class RecipeService {
                 })
                 .collect(Collectors.toList());
         recipe.setSteps(steps);
+        
+        // convert tag names to Tag models, create new RecipeTags and save them
+        List<String> tagNames = dto.getTags().stream()
+            .map(tDto -> {
+                String s = tDto.getName();
+                return s;
+            }).toList();
+        
+        List<Tag> tags = tagsRepository.findAllByNameIn(tagNames);
+
+        // if trying to save a tag that's not in the default tags listed in "tags" table, then throw error
+        if (tags.size() != tagNames.size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more tags passed in are invalid");
+        }
 
         // 2) Persist (cascades ingredients & steps)
         // .save() function is built into the RecipeRepository interface because it
         // extends JpaRepository
         // which provides basic CRUD operations
         Recipe saved = recipeRepository.save(recipe);
+
+        // Save all RecipeTag entries
+        List<RecipeTag> recipeTags = tags.stream()
+        .map(tag -> RecipeTag.builder()
+                .id(new RecipeTagId(saved.getRecipeId(), tag.getId()))
+                .recipe(recipe)
+                .tag(tag)
+                .build())
+        .collect(Collectors.toList());
+        recipeTagRepository.saveAll(recipeTags);
 
         // 3) Map Entity → Recipe Response DTO
         RecipeResponseDTO response = new RecipeResponseDTO();
@@ -105,6 +140,11 @@ public class RecipeService {
                                 s.getInstruction(),
                                 s.getStepNumber()))
                         .collect(Collectors.toList()));
+        response.setTags(
+            tagNames.stream()
+                .map(tN -> new TagResponseDTO(tN))
+                .toList()
+        );
 
         return response;
     }
@@ -234,7 +274,18 @@ public class RecipeService {
      * @throws ResponseStatusException if the recipe with the given ID is not found
      *
      * Behavior:
-     * 1. Steps:
+     * 1. Tags:
+     *    - Get all tags from DTO
+     *    - Convert tags into strings
+     *    - Convert tag-strings into Tag models
+     *    - compare if any passed in tags are invalid (string list should match tag list)
+     *    - Remove tags that aren't in current list
+     *    - Create nonexisting tags as RecipeTags
+     * 
+     * 2. Metadata:
+     *    - Update title and description
+     * 
+     * 3. Steps:
      *    - Fetch all existing steps for the recipe.
      *    - Map existing steps by ID for quick lookup.
      *    - For each incoming step:
@@ -243,7 +294,7 @@ public class RecipeService {
      *    - Delete any existing steps not present in the incoming list.
      *    - Save all updated and new steps.
      *
-     * 2. Ingredients:
+     * 4. Ingredients:
      *    - Fetch all existing ingredients for the recipe.
      *    - Map existing ingredients by ID for quick lookup.
      *    - For each incoming ingredient:
@@ -252,7 +303,7 @@ public class RecipeService {
      *    - Delete any existing ingredients not present in the incoming list.
      *    - Save all updated and new ingredients.
      *
-     * 3. **Response**:
+     * 5. Response:
      *    - Collect the updated steps and ingredients into their respective response DTOs.
      *    - Return an UpdateRecipeResponseDTO containing the recipe ID, title, description, updated ingredients, and updated steps.
      */
@@ -273,6 +324,34 @@ public class RecipeService {
     
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Recipe not found"));
+
+        /* ---------- Tags ----------- */
+        List<RecipeTag> existingTags = recipe.getRecipeTags();
+        List<String> incomingTagNames = newRecipeInfo.getTags().stream()
+            .map(t -> t.getName())
+            .toList();
+        List<Tag> incomingTags = tagsRepository.findAllByNameIn(incomingTagNames);
+
+        if (incomingTags.size() != incomingTagNames.size()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "One or more invalid tags");
+        }
+        // Remove tags not in the incoming list
+        existingTags.removeIf(rt -> incomingTags.stream().noneMatch(t -> t.getId().equals(rt.getTag().getId())));
+
+        // Add new tags that don’t already exist
+        for (Tag t : incomingTags) {
+            boolean alreadyPresent = existingTags.stream()
+                    .anyMatch(rt -> rt.getTag().getId().equals(t.getId()));
+            if (!alreadyPresent) {
+                existingTags.add(RecipeTag.builder()
+                        .recipe(recipe)
+                        .tag(t)
+                        .id(new RecipeTagId(recipe.getRecipeId(), t.getId()))
+                        .build());
+            }
+        }
+
+        /* ------ Simple metadata --------  */
         recipe.setTitle(newRecipeInfo.getTitle());
         recipe.setDescription(newRecipeInfo.getDescription());
         recipeRepository.save(recipe);

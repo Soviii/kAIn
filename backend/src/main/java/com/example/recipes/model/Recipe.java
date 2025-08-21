@@ -1,6 +1,7 @@
 package com.example.recipes.model;
 
 import com.example.ingredients.model.Ingredient;
+import com.example.recipetags.model.RecipeTag;
 import com.example.steps.model.Step;
 import jakarta.persistence.*;
 
@@ -27,6 +28,9 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Step> steps;
+
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeTag> recipeTags;
 
     @Column(name = "message_count", nullable = false) // TODO: consult with other devs if this is ok
     private Long messageCount = 0L;
@@ -89,6 +93,14 @@ public class Recipe {
 
     public void setSteps(List<Step> steps) {    // used to set the steps of the recipe
         this.steps = steps;
+    }
+
+    public List<RecipeTag> getRecipeTags() {
+        return this.recipeTags;
+    }
+
+    public void setRecipeTags(List<RecipeTag> recipeTags) {
+        this.recipeTags = recipeTags;
     }
 
     public void increaseMessageCount(Long numOfMsgs) {
