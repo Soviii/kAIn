@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 
 function FullScreenModal({ onClose }) {
-  const { setUserId } = useAuth();
+  const { setUserId, setIsAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -44,6 +44,7 @@ function FullScreenModal({ onClose }) {
 
       const data = response.json();
       setUserId(data["userId"]);
+      setIsAuthenticated(true);
       setStatus("Successfully registered!");
       
     } catch (error) {

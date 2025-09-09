@@ -5,23 +5,26 @@ import RegisterForm from "../RegisterForm/RegisterForm";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 export default function LoginForm() {
-  const { setUserId } = useAuth();
+  const { setUserId, setIsAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fetchStatusMsg, setFetchStatusMsg] = useState("");
 
+
   const handleLoginClick = async () => {
     setFetchStatusMsg("Verifying... please wait");
 
     const response = await fetch("http://localhost:8080/users/login", {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
-        email: email,
-        password: password,
       },
       credentials: "include",
+      body: JSON.stringify({
+        email: email,
+        password: password,
+      }),
     });
 
     if (!response.ok) {
@@ -29,11 +32,15 @@ export default function LoginForm() {
       return;
     }
 
-    const data = await response.json();
-    setUserId(data["userId"]);
-    setFetchStatusMsg("Correct credentials, redirecting...");
-    await new Promise((resolve) => setTimeout(resolve, 1250));
-    navigate("/main", { replace: true });
+    if (response.ok) {
+      const data = await response.json();
+      setUserId(data["userId"]);
+      setIsAuthenticated(true);
+      setFetchStatusMsg("Correct credentials, redirecting...");
+      // slight delay to show user the success message
+      await new Promise((resolve) => setTimeout(resolve, 1250));
+      navigate("/main", { replace: true });
+    }
   };
 
   return (
