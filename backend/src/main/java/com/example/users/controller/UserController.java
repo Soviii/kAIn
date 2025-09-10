@@ -1,6 +1,7 @@
 package com.example.users.controller;
 
 import com.example.users.dto.CreateUserResponseDTO;
+import com.example.users.dto.LoginUserRequestDTO;
 import com.example.users.dto.LoginUserResponseDTO;
 import com.example.config.JwtConfig;
 import com.example.users.dto.CreateUserRequestDTO;
@@ -37,9 +38,9 @@ public class UserController {
     }
 
     /**
-     * Handles user login requests via HTTP GET with credentials passed in request headers.
+     * Handles user login requests via HTTP POST with credentials passed in request body.
      *
-     * Expected headers:
+     * Expected body:
      * 
      *   email - The user's email address (required).
      *   password - The user's password (required).
@@ -47,18 +48,22 @@ public class UserController {
      *
      * Validates the provided credentials and returns a {@link LoginUserResponseDTO}
      * containing the user's ID and a generated JWT token if authentication is successful.
+     * Passing in the loginUserRequestDTO object as a parameter ensures that the request body is properly mapped and validated.
      *
-     * @param email    the user's email address from the "email" request header
-     * @param password the user's password from the "password" request header
+     * @param email    the user's email address from the "email" request body
+     * @param password the user's password from the "password" request body
      * @return {@link ResponseEntity} containing {@link LoginUserResponseDTO} on success
      */
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<LoginUserResponseDTO> loginUser(
-            @Valid @RequestHeader("email") String email,
-            @RequestHeader("password") String password,
+            @Valid @RequestBody LoginUserRequestDTO loginUserRequestDTO,
             HttpServletResponse response) {
 
-        LoginUserResponseDTO userIdAndJWT = this.userService.validateUserCredentials(email, password, response);
+        LoginUserResponseDTO userIdAndJWT = this.userService.validateUserCredentials(
+                loginUserRequestDTO.getEmail(),
+                loginUserRequestDTO.getPassword(),
+                response
+        );
 
         return ResponseEntity.ok(userIdAndJWT);
     }
