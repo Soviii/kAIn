@@ -24,7 +24,7 @@ public class LoginUserResponseDTO {
         return token;
     }
 
-    public void setTokne(String token) {
+    public void setToken(String token) {
         this.token = token;
     }
 }
