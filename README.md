@@ -8,7 +8,7 @@ A full-stack web application built using **Spring Boot** (Java) for the backend 
 
 ##  Table of Contents
 
-1. About the Project]
+1. About the Project
 2. User Features
 3. Technical Features
 4. Tech Stack
@@ -22,6 +22,8 @@ A full-stack web application built using **Spring Boot** (Java) for the backend 
 
 kAIn is a full-stack, cookbook-style web application that blends recipe management with the power of AI. Users can create, save, and edit their own recipes, while also enhancing them through an integrated AI chat assistant. Whether it’s adapting a dish to dietary restrictions, substituting based on available ingredients, or getting general cooking guidance, kAIn is your personal cookbook and a sous-chef all in one.
 From a technical perspective, this project is an end-to-end application that utilizes a modern React frontend, a robust Spring Boot backend, and containerized deployment with Docker. This architecture ensures scalability, ease of setup, and a clean separation of concerns—all while delivering a practical and engaging user experience.
+
+![architecture-diagram](./images/kAIn_demo_screenshot.png)
 
 ---
 
@@ -74,7 +76,9 @@ From a technical perspective, this project is an end-to-end application that uti
 - **Ingredient-Based Suggestions** – Enter what you have in your pantry and let the AI suggest possible meals  
 - **Search & Filter** – Find recipes by name, cuisine, or dietary tag  
 - **Favorites** – Save and quickly access your go-to dishes  
-- **Share Recipe** – Email feature to share recipes between friends 
+- **Share Recipe** – Email feature to share recipes between friends
+- **Recipe Details** - integrate localstack S3 buckets to store images of recipes
+
 
 
 
